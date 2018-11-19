@@ -5,7 +5,9 @@ import com.microhealth.lmc.utils.NetworkSystemAbstract
 import dagger.Module
 import dagger.Provides
 import es.jarroyo.tddweatherapp.ui.App
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 @Module
 class UtilsModule {
@@ -13,4 +15,9 @@ class UtilsModule {
     @Singleton
     fun provideNetworkSystem(app: App) =
             NetworkSystem(app) as NetworkSystemAbstract
+
+    @Provides
+    @Singleton
+    fun provideCorutineContext() =
+        Dispatchers.Main as CoroutineContext
 }
