@@ -1,7 +1,7 @@
 package es.jarroyo.tddweatherapp.data.source.network
 
 import com.microhealth.lmc.utils.NetworkSystemAbstract
-import es.jarroyo.tddweatherapp.domain.model.forecast.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 
 
 class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INetworkDataSource(networkSystem) {

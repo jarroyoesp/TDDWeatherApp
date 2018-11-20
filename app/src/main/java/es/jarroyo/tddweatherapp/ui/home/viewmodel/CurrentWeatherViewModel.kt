@@ -3,6 +3,7 @@ package es.jarroyo.tddweatherapp.ui.home.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
@@ -16,19 +17,30 @@ import kotlin.coroutines.CoroutineContext
 class CurrentWeatherViewModel
     @Inject
     constructor(private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
-                private var stateLiveData: MutableLiveData<ForecastState>,
+                //private var stateLiveData: MutableLiveData<ForecastState>,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
     private var job: Job = Job()
 
+    var stateLiveData = MutableLiveData<ForecastState>()
+
     init {
-        stateLiveData.value = DefaultForecastState(Response(null))
+        stateLiveData.postValue(DefaultForecastState(Response(null)))
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
         val request = GetCurrentWeatherRequest(1234) // Todo buscar un cityID
-        getCurrentWeatherUseCase.execute(request)
+        val response = getCurrentWeatherUseCase.execute(request)
+        proccessCurrentWeather(response)
+    }
+
+    private fun proccessCurrentWeather(response: Response<CurrentWeather>){
+        if (response.error == null && response.data != null) {
+            stateLiveData.postValue(DefaultForecastState(response))
+        } else if (response.error != null) {
+            //onError(response.error!!)
+        }
     }
 
 

@@ -1,7 +1,7 @@
 package es.jarroyo.tddweatherapp.ui.home.model
 
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.forecast.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 
 
 sealed class ForecastState {

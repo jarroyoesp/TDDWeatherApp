@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.domain.model.forecast
+package es.jarroyo.tddweatherapp.domain.model.currentWeather
 
 data class CurrentWeather(
     val base: String,

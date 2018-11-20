@@ -2,7 +2,7 @@ package es.jarroyo.tddweatherapp.data.repository
 
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.data.source.network.INetworkDataSource
-import es.jarroyo.tddweatherapp.domain.model.forecast.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 
 class WeatherRepository(
     private val networkDataSource: INetworkDataSource,

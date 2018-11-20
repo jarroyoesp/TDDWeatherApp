@@ -3,7 +3,7 @@ package es.jarroyo.tddweatherapp.domain.usecase.currentWeather
 import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.forecast.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.usecase.base.BaseUseCase
 
 open class GetCurrentWeatherUseCase(val repository: WeatherRepository) : BaseUseCase<GetCurrentWeatherRequest, CurrentWeather>() {

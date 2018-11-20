@@ -1,18 +1,34 @@
 package es.jarroyo.tddweatherapp.ui.home.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.Observer
+import com.nhaarman.mockitokotlin2.whenever
+import es.jarroyo.tddweatherapp.domain.model.Response
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
+import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import kotlin.coroutines.CoroutineContext
 
 class CurrentViewViewModelTest {
+
+    @get: Rule
+    var rule: TestRule = InstantTaskExecutorRule()
 
     lateinit  var viewModel : CurrentWeatherViewModel
 
@@ -22,23 +38,53 @@ class CurrentViewViewModelTest {
     lateinit var getCurrentWeatherUseCase: GetCurrentWeatherUseCase
 
     @Mock
-    lateinit var stateLiveData : MutableLiveData<ForecastState>
+    lateinit var observer: Observer<ForecastState>
+
+    @Mock
+    lateinit var lifeCycleOwner: LifecycleOwner
+
+    lateinit var lifeCycle: LifecycleRegistry
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         prepareViewModel()
+
+        lifeCycle = LifecycleRegistry(lifeCycleOwner)
+        `when` (lifeCycleOwner.lifecycle).thenReturn(lifeCycle)
+        lifeCycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
+
     }
 
     @Test
     fun `should request the current weather on start`() {
         runBlocking {
+            val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
+            val request = GetCurrentWeatherRequest(1234)
+            whenever(getCurrentWeatherUseCase.execute(request)).thenReturn(response)
+
             viewModel.initialize()
             Mockito.verify(getCurrentWeatherUseCase, Mockito.times(1)).execute()
         }
     }
 
+    @Test
+    fun `should show current weather when current weather info is received`() {
+        runBlocking {
+            val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
+            val request = GetCurrentWeatherRequest(1234)
+            whenever(getCurrentWeatherUseCase.execute(request)).thenReturn(response)
+
+            viewModel.stateLiveData.observe(lifeCycleOwner, observer)
+
+            viewModel.initialize()
+
+            verify(observer).onChanged(DefaultForecastState(response))
+        }
+
+    }
+
     private fun prepareViewModel(){
-        viewModel = CurrentWeatherViewModel(getCurrentWeatherUseCase, stateLiveData, coroutineContext)
+        viewModel = CurrentWeatherViewModel(getCurrentWeatherUseCase, coroutineContext)
     }
 }
