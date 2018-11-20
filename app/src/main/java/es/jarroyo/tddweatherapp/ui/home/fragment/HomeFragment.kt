@@ -94,17 +94,27 @@ class HomeFragment : BaseFragment() {
                 }
                 is ErrorForecastState -> {
                     isLoading = false
-                    /*hideLoading()
-                    showError((it as ErrorState).errorMessage)*/
+                    /*hideLoading()*/
+                    showError((it as ErrorForecastState))
                 }
             }
         }
     }
 
+    /**
+     * SHOW CURRENT WEATHER
+     */
     private fun showCurrentWeather(currentWeather: CurrentWeather?){
         if (currentWeather != null) {
             Toast.makeText(context, currentWeather.name, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    /**
+     * SHOW ERROR
+     */
+    private fun showError(errorForecastState: ErrorForecastState){
+        Toast.makeText(context, errorForecastState.response.exception?.message, Toast.LENGTH_SHORT).show()
     }
 
 }

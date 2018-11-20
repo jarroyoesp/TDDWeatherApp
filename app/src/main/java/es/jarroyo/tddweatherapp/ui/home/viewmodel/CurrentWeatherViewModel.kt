@@ -7,6 +7,7 @@ import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -37,8 +38,8 @@ class CurrentWeatherViewModel
     private fun proccessCurrentWeather(response: Response<CurrentWeather>){
         if (response.error == null && response.data != null) {
             stateLiveData.postValue(DefaultForecastState(response))
-        } else if (response.error != null) {
-            //onError(response.error!!)
+        } else if (response.exception != null) {
+            stateLiveData.postValue(ErrorForecastState(response))
         }
     }
 

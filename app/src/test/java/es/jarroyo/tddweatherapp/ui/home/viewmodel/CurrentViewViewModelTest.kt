@@ -6,11 +6,14 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.whenever
+import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.domain.model.Response
+import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -88,6 +91,24 @@ class CurrentViewViewModelTest {
             verify(observer).onChanged(DefaultForecastState(response))
         }
 
+    }
+
+    /**
+     * Test that checks ErrorState is set when there is no Internet connection
+     */
+    @Test
+    fun `should show error when no Internet connection is available`() {
+        runBlocking {
+            val response = Response<CurrentWeather>(exception = NetworkConnectionException())
+            val request = GetCurrentWeatherRequest(1234)
+            whenever(getCurrentWeatherUseCase.execute(request)).thenReturn(response)
+
+            viewModel.stateLiveData.observe(lifeCycleOwner, observer)
+
+            viewModel.initialize()
+
+            verify(observer).onChanged(ErrorForecastState(response))
+        }
     }
 
     private fun prepareViewModel(){

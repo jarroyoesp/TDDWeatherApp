@@ -9,4 +9,4 @@ sealed class ForecastState {
 }
 data class DefaultForecastState(override val response: Response<CurrentWeather>) : ForecastState()
 data class LoadingForecastState(override val response: Response<CurrentWeather>) : ForecastState()
-data class ErrorForecastState(val errorMessage: String,  override val response: Response<CurrentWeather>) : ForecastState()
+data class ErrorForecastState(override val response: Response<CurrentWeather>) : ForecastState()
