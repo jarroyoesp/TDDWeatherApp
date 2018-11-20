@@ -19,8 +19,7 @@ import javax.inject.Singleton
         DataModule::class,
         DomainModule::class,
         ViewModelFactoryModule::class,
-        ViewModelModule::class,
-        LiveDataModule::class
+        ViewModelModule::class
     )
 )
 interface ApplicationComponent {

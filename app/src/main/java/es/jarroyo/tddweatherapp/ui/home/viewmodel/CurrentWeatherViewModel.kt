@@ -17,7 +17,6 @@ import kotlin.coroutines.CoroutineContext
 class CurrentWeatherViewModel
     @Inject
     constructor(private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
-                //private var stateLiveData: MutableLiveData<ForecastState>,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
