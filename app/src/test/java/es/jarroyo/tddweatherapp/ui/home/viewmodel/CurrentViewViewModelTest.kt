@@ -56,6 +56,9 @@ class CurrentViewViewModelTest {
 
     }
 
+    /**
+     * Verify that "getCurrentWeatherUseCase" is executed once when the viewModel is initilized
+     */
     @Test
     fun `should request the current weather on start`() {
         runBlocking {
@@ -68,6 +71,9 @@ class CurrentViewViewModelTest {
         }
     }
 
+    /**
+     * Verify when is success getting currentWeather the liveData is changed with this new values
+     */
     @Test
     fun `should show current weather when current weather info is received`() {
         runBlocking {
