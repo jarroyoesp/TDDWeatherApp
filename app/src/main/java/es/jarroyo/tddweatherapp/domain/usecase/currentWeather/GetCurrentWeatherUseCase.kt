@@ -3,7 +3,6 @@ package es.jarroyo.tddweatherapp.domain.usecase.currentWeather
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
-import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
 import es.jarroyo.tddweatherapp.domain.usecase.base.BaseUseCase
 
 open class GetCurrentWeatherUseCase(val repository: WeatherRepository) : BaseUseCase<GetCurrentWeatherRequest, CurrentWeather>() {
@@ -16,6 +15,6 @@ open class GetCurrentWeatherUseCase(val repository: WeatherRepository) : BaseUse
         } catch (e: HttpException) {
             return Response(error = "HttpException", exception = e)
         }*/
-        return Response(CurrentWeatherFactory.createCurrentWeatherTest())
+        return Response(repository.getCurrentWeather(request!!))
     }
 }

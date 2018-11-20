@@ -17,6 +17,18 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        def STRING = "String"
+        def INT = "int"
+
+        all {
+            buildConfigField STRING, "OPEN_WEATHER_API_KEY", '"f11780da3330643cd659bb6dbb4e44a3"'
+        }
+
+
+        debug {
+            applicationIdSuffix '.debug'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
