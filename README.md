@@ -1,4 +1,12 @@
+# TDD Weather App
+This is an example of Android application using TDD and MVVM design pattern to show the current weather and forecast. I created this boilerplate for a few reasons:
 
+1. To experiment with MVVM
+2. To experiment with the Android Architecture Components
+3. To experiment with stable Kotlin coroutines
+4. To use as a starting point in future projects where clean architecture feels appropriate
+
+It is written 100% in Kotlin with both UI and Unit tests - we will also be keeping this up-to-date as libraries change!
 
 ## Languages, libraries and tools used
 
