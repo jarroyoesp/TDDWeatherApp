@@ -23,9 +23,9 @@ class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INet
                 addCallAdapterFactory(CoroutineCallAdapterFactory())
             }.build()
 
-            val github = retrofit.create(OpenWeatherAPI::class.java)
+            val openWeatherAPI = retrofit.create(OpenWeatherAPI::class.java)
             val repositories =
-                github.currentWeather()// request.cityId.toString()
+                openWeatherAPI.currentWeather(request.cityId.toString())
                     .await()
             return repositories
         } else {
