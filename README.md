@@ -15,7 +15,7 @@ It is written 100% in Kotlin with both UI and Unit tests - we will also be keepi
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html)
 * [Android Support Libraries]
 * [Stable Kotlin Coroutines (1.3)](https://github.com/Kotlin/kotlinx.coroutines)
-* [Dagger 2 (2.11)](https://github.com/google/dagger)
+* [Dagger 2 (2.18)](https://github.com/google/dagger)
 * [Retrofit](http://square.github.io/retrofit/)
 * [OkHttp](http://square.github.io/okhttp/)
 * [Gson](https://github.com/google/gson)
