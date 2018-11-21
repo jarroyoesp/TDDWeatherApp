@@ -6,7 +6,7 @@ This is an example of Android application using TDD and MVVM design pattern to s
 3. To experiment with stable Kotlin coroutines
 4. To use as a starting point in future projects where clean architecture feels appropriate
 
-It is written 100% in Kotlin with both UI and Unit tests - we will also be keeping this up-to-date as libraries change!
+It is written 100% in Kotlin with both UI and Unit tests 
 
 ## Languages, libraries and tools used
 
