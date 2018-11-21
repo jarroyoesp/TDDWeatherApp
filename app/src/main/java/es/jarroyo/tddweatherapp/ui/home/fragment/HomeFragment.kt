@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import butterknife.OnClick
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
@@ -78,9 +77,14 @@ class HomeFragment : BaseFragment() {
     /****************************************************************************
      * ONCLICK
      ***************************************************************************/
+    @OnClick(R.id.fragment_home_button_search)
+    fun onClickSearch() {
+        viewModel.getCityCurrentWeather(fragment_home_et_city.text.toString())
+    }
+
     @OnClick(R.id.fragment_home_button_retry)
     fun onClickRetry() {
-        viewModel.initialize()
+        viewModel.getCityCurrentWeather(fragment_home_et_city.text.toString())
     }
 
     /****************************************************************************
@@ -97,6 +101,7 @@ class HomeFragment : BaseFragment() {
                 is DefaultForecastState -> {
                     isLoading = false
                     hideLoading()
+                    hideError()
                     showCurrentWeather(it.response.data)
                 }
                 is LoadingForecastState -> {
@@ -118,7 +123,8 @@ class HomeFragment : BaseFragment() {
      */
     private fun showCurrentWeather(currentWeather: CurrentWeather?){
         if (currentWeather != null) {
-            Toast.makeText(context, currentWeather.name, Toast.LENGTH_SHORT).show()
+            val info = "Temp: ${currentWeather.main.temp}\nTemp Max: ${currentWeather.main.temp_max}\nTemp Min: ${currentWeather.main.temp_min}\n"
+            fragment_home_tv_current_weather.text = info
         }
     }
 

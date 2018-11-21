@@ -13,7 +13,9 @@ interface OpenWeatherAPI {
 
         // PARAMETERS
         const val URL_PARAMETER_CITY_ID = "id"
+        const val URL_PARAMETER_CITY_NAME = "q"
         const val URL_PARAMETER_LICENSE_TOKEN = "APPID"
+        const val URL_PARAMETER_UNITS = "units"
     }
 
 
@@ -21,8 +23,9 @@ interface OpenWeatherAPI {
      * CURRENT WEATHER
      */
     @GET(OpenWeatherAPI.URL_PATH_CURRENT_WEATHER)
-    fun currentWeather(
-        @Query(URL_PARAMETER_CITY_ID) id: String = "",
-        @Query(URL_PARAMETER_LICENSE_TOKEN) appId: String = BuildConfig.OPEN_WEATHER_API_KEY
+    fun currentWeatherByName(
+        @Query(URL_PARAMETER_CITY_NAME) cityName: String = "",
+        @Query(URL_PARAMETER_LICENSE_TOKEN) appId: String = BuildConfig.OPEN_WEATHER_API_KEY,
+        @Query(URL_PARAMETER_UNITS) units: String = "metric"
     ): Deferred<CurrentWeather>
 }

@@ -4,7 +4,7 @@ import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.data.source.network.INetworkDataSource
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 
 class WeatherRepository(
     private val networkDataSource: INetworkDataSource,
@@ -16,8 +16,8 @@ class WeatherRepository(
     /***********************************************************************************************
      * GET REPOSITORIES LIST
      **********************************************************************************************/
-    suspend fun getCurrentWeather(request: GetCurrentWeatherRequest): Response<CurrentWeather> {
-        val result = networkDataSource.getCurrentWeather(request)
+    suspend fun getCurrentWeather(byNameRequest: GetCurrentWeatherByNameRequest): Response<CurrentWeather> {
+        val result = networkDataSource.getCurrentWeatherByName(byNameRequest)
         return result
     }
 }

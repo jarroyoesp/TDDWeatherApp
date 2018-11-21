@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
@@ -18,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
 
 class CurrentWeatherViewModel
     @Inject
-    constructor(private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    constructor(private val getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
@@ -33,8 +33,12 @@ class CurrentWeatherViewModel
     fun initialize() = launchSilent(coroutineContext, job) {
         stateLiveData.postValue(LoadingForecastState(Response(null)))
 
-        val request = GetCurrentWeatherRequest(2172798) // Todo buscar un cityID 2172797
-        val response = getCurrentWeatherUseCase.execute(request)
+        getCityCurrentWeather("Zaragoza")
+    }
+
+    fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
+        val request = GetCurrentWeatherByNameRequest(cityName)
+        val response = getCurrentWeatherByNameUseCase.execute(request)
         proccessCurrentWeather(response)
     }
 

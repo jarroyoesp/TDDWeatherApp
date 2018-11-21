@@ -3,7 +3,7 @@ package es.jarroyo.tddweatherapp.app.di.module
 import dagger.Module
 import dagger.Provides
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import javax.inject.Singleton
 
 
@@ -12,7 +12,7 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun provideGetCurrentWeatherUseCase(repository: WeatherRepository) = GetCurrentWeatherUseCase(repository)
+    fun provideGetCurrentWeatherUseCase(repository: WeatherRepository) = GetCurrentWeatherByNameUseCase(repository)
 
 
 }

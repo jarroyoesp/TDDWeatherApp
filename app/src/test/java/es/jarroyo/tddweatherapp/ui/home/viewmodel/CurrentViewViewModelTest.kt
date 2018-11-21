@@ -10,8 +10,8 @@ import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
@@ -38,7 +38,7 @@ class CurrentViewViewModelTest {
     var coroutineContext: CoroutineContext = Dispatchers.Unconfined
 
     @Mock
-    lateinit var getCurrentWeatherUseCase: GetCurrentWeatherUseCase
+    lateinit var getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase
 
     @Mock
     lateinit var observer: Observer<ForecastState>
@@ -60,29 +60,29 @@ class CurrentViewViewModelTest {
     }
 
     /**
-     * Verify that "getCurrentWeatherUseCase" is executed once when the viewModel is initilized
+     * Verify that "getCurrentWeatherByNameUseCase" is executed once when the viewModel is initilized
      */
     @Test
     fun `should request the current weather on start`() {
         runBlocking {
             val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
-            val request = GetCurrentWeatherRequest(1234)
-            whenever(getCurrentWeatherUseCase.execute(request)).thenReturn(response)
+            val request = GetCurrentWeatherByNameRequest("Zaragoza")
+            whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
             viewModel.initialize()
-            Mockito.verify(getCurrentWeatherUseCase, Mockito.times(1)).execute()
+            Mockito.verify(getCurrentWeatherByNameUseCase, Mockito.times(1)).execute()
         }
     }
 
     /**
-     * Verify when is success getting currentWeather the liveData is changed with this new values
+     * Verify when is success getting currentWeatherByName the liveData is changed with this new values
      */
     @Test
     fun `should show current weather when current weather info is received`() {
         runBlocking {
             val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
-            val request = GetCurrentWeatherRequest(1234)
-            whenever(getCurrentWeatherUseCase.execute(request)).thenReturn(response)
+            val request = GetCurrentWeatherByNameRequest("Zaragoza")
+            whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
             viewModel.stateLiveData.observe(lifeCycleOwner, observer)
 
@@ -100,8 +100,8 @@ class CurrentViewViewModelTest {
     fun `should show error when no Internet connection is available`() {
         runBlocking {
             val response = Response<CurrentWeather>(exception = NetworkConnectionException())
-            val request = GetCurrentWeatherRequest(1234)
-            whenever(getCurrentWeatherUseCase.execute(request)).thenReturn(response)
+            val request = GetCurrentWeatherByNameRequest("Zaragoza")
+            whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
             viewModel.stateLiveData.observe(lifeCycleOwner, observer)
 
@@ -112,6 +112,6 @@ class CurrentViewViewModelTest {
     }
 
     private fun prepareViewModel(){
-        viewModel = CurrentWeatherViewModel(getCurrentWeatherUseCase, coroutineContext)
+        viewModel = CurrentWeatherViewModel(getCurrentWeatherByNameUseCase, coroutineContext)
     }
 }

@@ -2,10 +2,9 @@ package es.jarroyo.tddweatherapp.data.source.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.microhealth.lmc.utils.NetworkSystemAbstract
-import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherRequest
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -15,36 +14,34 @@ import java.io.IOException
 
 class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INetworkDataSource(networkSystem) {
 
+    private fun initRetrofitOpenWateherAPI(): OpenWeatherAPI {
+        val retrofit = Retrofit.Builder().apply {
+            baseUrl("https://api.openweathermap.org")
+            client(okHttpClient)
+            addConverterFactory(GsonConverterFactory.create())
+            addCallAdapterFactory(CoroutineCallAdapterFactory())
+        }.build()
+
+        val openWeatherAPI = retrofit.create(OpenWeatherAPI::class.java)
+        return openWeatherAPI
+    }
+
     /**
-     * GET CURRENT WEATHER
+     * GET CURRENT WEATHER BY ID
      */
-    override suspend fun getCurrentWeather(request: GetCurrentWeatherRequest): Response<CurrentWeather> {
+    override suspend fun getCurrentWeatherByName(byNameRequest: GetCurrentWeatherByNameRequest): Response<CurrentWeather> {
+        val openWeatherAPI = initRetrofitOpenWateherAPI()
+        var response = Response<CurrentWeather>()
+        try {
+            val currentWeather =
+                openWeatherAPI.currentWeatherByName(byNameRequest.cityName)
+                    .await()
 
-        if (networkSystem.isNetworkAvailable()) {
-            val retrofit = Retrofit.Builder().apply {
-                baseUrl("https://api.openweathermap.org")
-                client(okHttpClient)
-                addConverterFactory(GsonConverterFactory.create())
-                addCallAdapterFactory(CoroutineCallAdapterFactory())
-            }.build()
-
-            val openWeatherAPI = retrofit.create(OpenWeatherAPI::class.java)
-
-            var response = Response<CurrentWeather>()
-            try {
-                val currentWeather =
-                    openWeatherAPI.currentWeather(request.cityId.toString())
-                        .await()
-
-                response.data = currentWeather
-            } catch (e: Exception){
-                response.exception = e
-            }
-            return response
-
-        } else {
-            throw NetworkConnectionException()
+            response.data = currentWeather
+        } catch (e: Exception) {
+            response.exception = e
         }
+        return response
     }
 
     var okHttpClient = OkHttpClient.Builder()
