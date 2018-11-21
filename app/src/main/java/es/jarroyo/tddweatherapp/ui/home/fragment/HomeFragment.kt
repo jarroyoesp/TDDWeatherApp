@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import butterknife.OnClick
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
@@ -20,6 +21,7 @@ import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.LoadingForecastState
 import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentWeatherViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
@@ -72,6 +74,15 @@ class HomeFragment : BaseFragment() {
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
     }
+
+    /****************************************************************************
+     * ONCLICK
+     ***************************************************************************/
+    @OnClick(R.id.fragment_home_button_retry)
+    fun onClickRetry() {
+        viewModel.initialize()
+    }
+
     /****************************************************************************
      * OBSERVER
      ***************************************************************************/
@@ -85,16 +96,17 @@ class HomeFragment : BaseFragment() {
             when (state) {
                 is DefaultForecastState -> {
                     isLoading = false
-                    //hideLoading()
+                    hideLoading()
                     showCurrentWeather(it.response.data)
                 }
                 is LoadingForecastState -> {
                     isLoading = true
-                    /*showLoading()*/
+                    showLoading()
+                    hideError()
                 }
                 is ErrorForecastState -> {
                     isLoading = false
-                    /*hideLoading()*/
+                    hideLoading()
                     showError((it as ErrorForecastState))
                 }
             }
@@ -111,10 +123,32 @@ class HomeFragment : BaseFragment() {
     }
 
     /**
+     * SHOW LOADING
+     */
+    private fun showLoading(){
+        fragment_home_loading.visibility = View.VISIBLE
+    }
+
+    /**
+     * HIDE LOADING
+     */
+    private fun hideLoading(){
+        fragment_home_loading.visibility = View.GONE
+    }
+
+    /**
      * SHOW ERROR
      */
     private fun showError(errorForecastState: ErrorForecastState){
-        Toast.makeText(context, errorForecastState.response.exception?.message, Toast.LENGTH_SHORT).show()
+        fragment_home_layout_error.visibility = View.VISIBLE
+        fragment_home_tv_status.text = errorForecastState.response.exception?.message
+    }
+
+    /**
+     * HIDE ERROR
+     */
+    private fun hideError(){
+        fragment_home_layout_error.visibility = View.GONE
     }
 
 }

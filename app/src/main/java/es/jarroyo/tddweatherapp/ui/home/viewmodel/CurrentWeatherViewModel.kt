@@ -9,6 +9,7 @@ import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherU
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.LoadingForecastState
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -30,6 +31,8 @@ class CurrentWeatherViewModel
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
+        stateLiveData.postValue(LoadingForecastState(Response(null)))
+
         val request = GetCurrentWeatherRequest(2172798) // Todo buscar un cityID 2172797
         val response = getCurrentWeatherUseCase.execute(request)
         proccessCurrentWeather(response)
