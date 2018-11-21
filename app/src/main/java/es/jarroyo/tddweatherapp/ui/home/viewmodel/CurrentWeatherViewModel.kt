@@ -30,7 +30,7 @@ class CurrentWeatherViewModel
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
-        val request = GetCurrentWeatherRequest(2172797) // Todo buscar un cityID
+        val request = GetCurrentWeatherRequest(2172798) // Todo buscar un cityID 2172797
         val response = getCurrentWeatherUseCase.execute(request)
         proccessCurrentWeather(response)
     }
