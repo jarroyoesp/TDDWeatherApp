@@ -1,5 +1,5 @@
 # TDD Weather App
-This is an example of Android application using TDD and MVVM design pattern to show the current weather and forecast. I created this boilerplate for a few reasons:
+This is an example of Android application using TDD and MVVM design pattern to show the current weather and forecast. I created this project for a few reasons:
 
 1. To experiment with MVVM
 2. To experiment with the Android Architecture Components
