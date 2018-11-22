@@ -43,7 +43,7 @@ class CurrentWeatherViewModel
     }
 
     private fun proccessCurrentWeather(response: Response<CurrentWeather>){
-        if (response?.error == null && response?.data != null) {
+        if (response?.exception == null && response?.data != null) {
             stateLiveData.postValue(DefaultForecastState(response))
         } else if (response?.exception != null) {
             stateLiveData.postValue(ErrorForecastState(response))
