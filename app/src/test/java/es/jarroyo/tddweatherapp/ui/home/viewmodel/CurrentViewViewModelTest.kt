@@ -53,6 +53,9 @@ class CurrentViewViewModelTest {
 
     lateinit var lifeCycle: LifecycleRegistry
 
+    // CONSTANT DATA
+    private val CITY_NAME = "Zaragoza"
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
@@ -68,13 +71,13 @@ class CurrentViewViewModelTest {
      * Verify that "getCurrentWeatherByNameUseCase" is executed once when the viewModel is initilized
      */
     @Test
-    fun `should request the current weather on start`() {
+    fun `should request the current weather when get`() {
         runBlocking {
             val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
-            val request = GetCurrentWeatherByNameRequest("Zaragoza")
+            val request = GetCurrentWeatherByNameRequest(CITY_NAME)
             whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
-            viewModel.initialize()
+            viewModel.getCityCurrentWeather(CITY_NAME)
             Mockito.verify(getCurrentWeatherByNameUseCase, Mockito.times(1)).execute()
         }
     }
@@ -85,7 +88,7 @@ class CurrentViewViewModelTest {
     @Test
     fun `should loading state when make request`() {
         runBlocking {
-            viewModel.getCityCurrentWeather("Zaragoza")
+            viewModel.getCityCurrentWeather(CITY_NAME)
 
             assertThat(viewModel.stateLiveData.value, instanceOf(LoadingForecastState::class.java))
         }
@@ -98,7 +101,7 @@ class CurrentViewViewModelTest {
     fun `should show current weather when current weather info is received`() {
         runBlocking {
             val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
-            val request = GetCurrentWeatherByNameRequest("Zaragoza")
+            val request = GetCurrentWeatherByNameRequest(CITY_NAME)
             whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
             viewModel.stateLiveData.observe(lifeCycleOwner, observer)
@@ -117,7 +120,7 @@ class CurrentViewViewModelTest {
     fun `should show error when no Internet connection is available`() {
         runBlocking {
             val response = Response<CurrentWeather>(exception = NetworkConnectionException())
-            val request = GetCurrentWeatherByNameRequest("Zaragoza")
+            val request = GetCurrentWeatherByNameRequest(CITY_NAME)
             whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
             viewModel.stateLiveData.observe(lifeCycleOwner, observer)
