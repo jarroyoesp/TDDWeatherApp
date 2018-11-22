@@ -7,12 +7,11 @@ import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.whenever
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocationFactory
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.CurrentLocationState
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentLocationState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentLocationState
+import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
+import es.jarroyo.tddweatherapp.ui.home.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -39,7 +38,13 @@ class WeatherLocationViewModelTest {
     lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
 
     @Mock
+    lateinit var saveWeatherLocationUseCase: SaveWeatherLocationUseCase
+
+    @Mock
     lateinit var observer: Observer<CurrentLocationState>
+
+    @Mock
+    lateinit var observerSaveWeatherLocation: Observer<SaveWeatherLocationState>
 
     @Mock
     lateinit var lifeCycleOwner: LifecycleOwner
@@ -104,7 +109,50 @@ class WeatherLocationViewModelTest {
         }
     }
 
-    private fun prepareViewModel(){
-        viewModel = CurrentLocationViewModel(getCurrentLocationUseCase, coroutineContext)
+    @Test
+    fun `when call saveWeatherLocation(), SaveWeatherLocationUsecase is called once`() {
+        runBlocking {
+            val response = Response(CurrentLocationFactory.createCurrentLocationTest())
+            whenever(saveWeatherLocationUseCase.execute()).thenReturn(response)
+
+            viewModel.saveWeatherLocation(CurrentLocationFactory.createCurrentLocationTest())
+            Mockito.verify(saveWeatherLocationUseCase, Mockito.times(1)).execute()
+        }
     }
+
+    @Test
+    fun `when received success after call saveWeatherLocation(), we receive the same weather location`() {
+        runBlocking {
+            val response = Response(CurrentLocationFactory.createCurrentLocationTest())
+            whenever(saveWeatherLocationUseCase.execute()).thenReturn(response)
+
+            viewModel.saveWeatherLocationdStateLiveData.observe(lifeCycleOwner, observerSaveWeatherLocation)
+
+            viewModel.saveWeatherLocation(CurrentLocationFactory.createCurrentLocationTest())
+
+            Mockito.verify(observerSaveWeatherLocation).onChanged(DefaultSaveWeatherLocationState(response))
+        }
+    }
+
+    @Test
+    fun `when received error after call saveWeatherLocation(), we set ErrorSaveWeatherLocationSatate`() {
+        runBlocking {
+            val response = Response<WeatherLocation>(exception = java.lang.IllegalArgumentException())
+            whenever(saveWeatherLocationUseCase.execute()).thenReturn(response)
+
+            viewModel.saveWeatherLocationdStateLiveData.observe(lifeCycleOwner, observerSaveWeatherLocation)
+
+            viewModel.saveWeatherLocation(CurrentLocationFactory.createCurrentLocationTest())
+
+            Mockito.verify(observerSaveWeatherLocation).onChanged(ErrorSaveWeatherLocationState(response))
+        }
+    }
+
+
+
+    private fun prepareViewModel(){
+        viewModel = CurrentLocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase,  coroutineContext)
+    }
+
+
 }

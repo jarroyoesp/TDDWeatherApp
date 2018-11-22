@@ -5,9 +5,9 @@ import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.CurrentLocationState
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentLocationState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentLocationState
+import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
+import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
+import es.jarroyo.tddweatherapp.ui.home.model.*
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -17,16 +17,21 @@ import kotlin.coroutines.CoroutineContext
 class CurrentLocationViewModel
     @Inject
     constructor(private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+                private val saveWeatherLocationUseCase: SaveWeatherLocationUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
     private var job: Job = Job()
 
     var currentLocationStateLiveData = MutableLiveData<CurrentLocationState>()
+    var saveWeatherLocationdStateLiveData = MutableLiveData<SaveWeatherLocationState>()
 
     init {
     }
 
+    /**
+     * GET CURRENT LOCATION
+     */
     fun getCurrentLocation() = launchSilent(coroutineContext, job) {
         val response = getCurrentLocationUseCase.execute()
         processCurrentLocationResponse(response)
@@ -39,6 +44,24 @@ class CurrentLocationViewModel
             currentLocationStateLiveData.postValue(ErrorCurrentLocationState(response))
         }
     }
+
+    /**
+     * SAVE WEATHER LOCATION
+     */
+    fun saveWeatherLocation(weatherLocation: WeatherLocation) = launchSilent(coroutineContext, job) {
+        val request = SaveWeatherLocationRequest(weatherLocation)
+        val response = saveWeatherLocationUseCase.execute(request)
+        processSaveWeatherLocationResponse(response)
+    }
+
+    fun processSaveWeatherLocationResponse(response: Response<WeatherLocation>){
+        if (response.data != null) {
+            saveWeatherLocationdStateLiveData.postValue(DefaultSaveWeatherLocationState(response))
+        } else if (response.exception != null) {
+            saveWeatherLocationdStateLiveData.postValue(ErrorSaveWeatherLocationState(response))
+        }
+    }
+
 
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
     }
