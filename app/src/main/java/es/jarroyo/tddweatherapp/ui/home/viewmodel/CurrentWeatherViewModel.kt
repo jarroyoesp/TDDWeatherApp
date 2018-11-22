@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
@@ -19,6 +20,7 @@ import kotlin.coroutines.CoroutineContext
 class CurrentWeatherViewModel
     @Inject
     constructor(private val getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase,
+                private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 

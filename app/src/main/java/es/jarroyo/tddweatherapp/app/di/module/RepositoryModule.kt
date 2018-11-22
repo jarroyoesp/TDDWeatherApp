@@ -2,6 +2,7 @@ package es.jarroyo.tddweatherapp.app.di.module
 
 import dagger.Module
 import dagger.Provides
+import es.jarroyo.tddweatherapp.data.repository.LocationRepository
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.data.source.network.INetworkDataSource
@@ -16,4 +17,10 @@ class RepositoryModule {
         networkDataSource: INetworkDataSource,
         diskDataSource: DiskDataSource
     ) = WeatherRepository(networkDataSource, diskDataSource)
+
+    @Provides
+    @Singleton
+    fun provideLocationRepository(
+        diskDataSource: DiskDataSource
+    ) = LocationRepository(diskDataSource)
 }

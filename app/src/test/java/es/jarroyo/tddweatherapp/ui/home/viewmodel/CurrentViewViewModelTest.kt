@@ -10,6 +10,7 @@ import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
+import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
@@ -46,6 +47,9 @@ class CurrentViewViewModelTest {
     lateinit var getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase
 
     @Mock
+    lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
+
+    @Mock
     lateinit var observer: Observer<ForecastState>
 
     @Mock
@@ -68,10 +72,21 @@ class CurrentViewViewModelTest {
     }
 
     /**
-     * Verify that "getCurrentWeatherByNameUseCase" is executed once when the viewModel is initilized
+     * Verify when Initilize viewModel, the first action is getCurrentLocation
      */
     @Test
-    fun `should request the current weather when get`() {
+    fun `when viewModel is initilize then get currentLocation`() {
+        runBlocking {
+            viewModel.initialize()
+            Mockito.verify(getCurrentLocationUseCase, Mockito.times(1)).execute()
+        }
+    }
+
+    /**
+     * Verify that "getCurrentWeatherByNameUseCase" is executed once when call getCityCurrentWeather()
+     */
+    @Test
+    fun `should request the current weather when call getCityCurrentWeather()`() {
         runBlocking {
             val response = Response(CurrentWeatherFactory.createCurrentWeatherTest())
             val request = GetCurrentWeatherByNameRequest(CITY_NAME)
@@ -132,6 +147,6 @@ class CurrentViewViewModelTest {
     }
 
     private fun prepareViewModel(){
-        viewModel = CurrentWeatherViewModel(getCurrentWeatherByNameUseCase, coroutineContext)
+        viewModel = CurrentWeatherViewModel(getCurrentWeatherByNameUseCase, getCurrentLocationUseCase, coroutineContext)
     }
 }
