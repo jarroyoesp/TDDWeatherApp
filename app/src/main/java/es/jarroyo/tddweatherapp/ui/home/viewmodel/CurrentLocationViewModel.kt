@@ -7,6 +7,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
 import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.CurrentLocationState
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentLocationState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentLocationState
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -34,6 +35,8 @@ class CurrentLocationViewModel
     fun processCurrentLocationResponse(response: Response<CurrentLocation>){
         if (response.data != null) {
             currentLocationStateLiveData.postValue(DefaultCurrentLocationState(response))
+        } else if (response.exception != null) {
+            currentLocationStateLiveData.postValue(ErrorCurrentLocationState(response))
         }
     }
 

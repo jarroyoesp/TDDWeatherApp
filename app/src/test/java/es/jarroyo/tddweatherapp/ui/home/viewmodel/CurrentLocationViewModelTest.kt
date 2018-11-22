@@ -7,10 +7,12 @@ import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.whenever
 import es.jarroyo.tddweatherapp.domain.model.Response
+import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
 import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocationFactory
 import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.CurrentLocationState
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentLocationState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentLocationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -65,6 +67,9 @@ class CurrentLocationViewModelTest {
         }
     }
 
+    /**
+     * Verify when success getting current location the state is DefaultState
+     */
     @Test
     fun `when received current location then CurrrentLocationState is DefaultState`() {
         runBlocking {
@@ -76,6 +81,23 @@ class CurrentLocationViewModelTest {
             viewModel.getCurrentLocation()
 
             Mockito.verify(observer).onChanged(DefaultCurrentLocationState(response))
+        }
+    }
+
+    /**
+     * Verify when error getting current location the state is ErrorState
+     */
+    @Test
+    fun `when received error getting current location then CurrrentLocationState is ErrorState`() {
+        runBlocking {
+            val response = Response<CurrentLocation>(exception = IllegalArgumentException())
+            whenever(getCurrentLocationUseCase.execute()).thenReturn(response)
+
+            viewModel.currentLocationStateLiveData.observe(lifeCycleOwner, observer)
+
+            viewModel.getCurrentLocation()
+
+            Mockito.verify(observer).onChanged(ErrorCurrentLocationState(response))
         }
     }
 
