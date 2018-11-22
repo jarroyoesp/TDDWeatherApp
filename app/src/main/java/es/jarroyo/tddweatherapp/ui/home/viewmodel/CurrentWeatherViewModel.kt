@@ -7,10 +7,10 @@ import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.LoadingForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.LoadingCurrentWeatherState
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -26,10 +26,10 @@ class CurrentWeatherViewModel
 
     private var job: Job = Job()
 
-    var stateLiveData = MutableLiveData<ForecastState>()
+    var stateLiveData = MutableLiveData<CurrentWeatherState>()
 
     init {
-        stateLiveData.postValue(DefaultForecastState(Response(null)))
+        stateLiveData.postValue(DefaultCurrentWeatherState(Response(null)))
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
@@ -41,7 +41,7 @@ class CurrentWeatherViewModel
     }
 
     fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
-        stateLiveData.postValue(LoadingForecastState(Response(null)))
+        stateLiveData.postValue(LoadingCurrentWeatherState(Response(null)))
 
         val request = GetCurrentWeatherByNameRequest(cityName)
         val response = getCurrentWeatherByNameUseCase.execute(request)
@@ -50,9 +50,9 @@ class CurrentWeatherViewModel
 
     private fun proccessCurrentWeather(response: Response<CurrentWeather>){
         if (response?.exception == null && response?.data != null) {
-            stateLiveData.postValue(DefaultForecastState(response))
+            stateLiveData.postValue(DefaultCurrentWeatherState(response))
         } else if (response?.exception != null) {
-            stateLiveData.postValue(ErrorForecastState(response))
+            stateLiveData.postValue(ErrorCurrentWeatherState(response))
         }
     }
 

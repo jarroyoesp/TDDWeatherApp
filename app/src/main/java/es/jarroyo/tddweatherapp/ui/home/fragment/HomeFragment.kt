@@ -15,10 +15,10 @@ import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.LoadingForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.LoadingCurrentWeatherState
 import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentWeatherViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -95,24 +95,24 @@ class HomeFragment : BaseFragment() {
         viewModel.initialize()
     }
 
-    private val stateObserver = Observer<ForecastState> { state ->
+    private val stateObserver = Observer<CurrentWeatherState> { state ->
         state?.let {
             when (state) {
-                is DefaultForecastState -> {
+                is DefaultCurrentWeatherState -> {
                     isLoading = false
                     hideLoading()
                     hideError()
                     showCurrentWeather(it.response.data)
                 }
-                is LoadingForecastState -> {
+                is LoadingCurrentWeatherState -> {
                     isLoading = true
                     showLoading()
                     hideError()
                 }
-                is ErrorForecastState -> {
+                is ErrorCurrentWeatherState -> {
                     isLoading = false
                     hideLoading()
-                    showError((it as ErrorForecastState))
+                    showError((it as ErrorCurrentWeatherState))
                 }
             }
         }
@@ -145,7 +145,7 @@ class HomeFragment : BaseFragment() {
     /**
      * SHOW ERROR
      */
-    private fun showError(errorForecastState: ErrorForecastState){
+    private fun showError(errorForecastState: ErrorCurrentWeatherState){
         fragment_home_layout_error.visibility = View.VISIBLE
         fragment_home_tv_status.text = errorForecastState.response.exception?.message
     }

@@ -4,9 +4,9 @@ import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 
 
-sealed class ForecastState {
+sealed class CurrentWeatherState {
     abstract val response: Response<CurrentWeather>
 }
-data class DefaultForecastState(override val response: Response<CurrentWeather>) : ForecastState()
-data class LoadingForecastState(override val response: Response<CurrentWeather>) : ForecastState()
-data class ErrorForecastState(override val response: Response<CurrentWeather>) : ForecastState()
+data class DefaultCurrentWeatherState(override val response: Response<CurrentWeather>) : CurrentWeatherState()
+data class LoadingCurrentWeatherState(override val response: Response<CurrentWeather>) : CurrentWeatherState()
+data class ErrorCurrentWeatherState(override val response: Response<CurrentWeather>) : CurrentWeatherState()

@@ -13,10 +13,10 @@ import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactor
 import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
-import es.jarroyo.tddweatherapp.ui.home.model.LoadingForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.LoadingCurrentWeatherState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.instanceOf
@@ -50,7 +50,7 @@ class CurrentViewViewModelTest {
     lateinit var getCurrentLocationUseCase: GetCurrentLocationUseCase
 
     @Mock
-    lateinit var observer: Observer<ForecastState>
+    lateinit var observer: Observer<CurrentWeatherState>
 
     @Mock
     lateinit var lifeCycleOwner: LifecycleOwner
@@ -105,7 +105,7 @@ class CurrentViewViewModelTest {
         runBlocking {
             viewModel.getCityCurrentWeather(CITY_NAME)
 
-            assertThat(viewModel.stateLiveData.value, instanceOf(LoadingForecastState::class.java))
+            assertThat(viewModel.stateLiveData.value, instanceOf(LoadingCurrentWeatherState::class.java))
         }
     }
 
@@ -123,7 +123,7 @@ class CurrentViewViewModelTest {
 
             viewModel.initialize()
 
-            verify(observer).onChanged(DefaultForecastState(response))
+            verify(observer).onChanged(DefaultCurrentWeatherState(response))
         }
 
     }
@@ -142,7 +142,7 @@ class CurrentViewViewModelTest {
 
             viewModel.initialize()
 
-            verify(observer).onChanged(ErrorForecastState(response))
+            verify(observer).onChanged(ErrorCurrentWeatherState(response))
         }
     }
 
