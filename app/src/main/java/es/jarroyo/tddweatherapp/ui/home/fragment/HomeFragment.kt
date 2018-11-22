@@ -91,7 +91,7 @@ class HomeFragment : BaseFragment() {
      * OBSERVER
      ***************************************************************************/
     private fun observeViewModel() {
-        viewModel.stateLiveData.observe(this, stateObserver)
+        viewModel.currentWeatherStateLiveData.observe(this, stateObserver)
         viewModel.initialize()
     }
 

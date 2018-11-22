@@ -26,10 +26,10 @@ class CurrentWeatherViewModel
 
     private var job: Job = Job()
 
-    var stateLiveData = MutableLiveData<CurrentWeatherState>()
+    var currentWeatherStateLiveData = MutableLiveData<CurrentWeatherState>()
 
     init {
-        stateLiveData.postValue(DefaultCurrentWeatherState(Response(null)))
+        currentWeatherStateLiveData.postValue(DefaultCurrentWeatherState(Response(null)))
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
@@ -41,7 +41,7 @@ class CurrentWeatherViewModel
     }
 
     fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
-        stateLiveData.postValue(LoadingCurrentWeatherState(Response(null)))
+        currentWeatherStateLiveData.postValue(LoadingCurrentWeatherState(Response(null)))
 
         val request = GetCurrentWeatherByNameRequest(cityName)
         val response = getCurrentWeatherByNameUseCase.execute(request)
@@ -50,9 +50,9 @@ class CurrentWeatherViewModel
 
     private fun proccessCurrentWeather(response: Response<CurrentWeather>){
         if (response?.exception == null && response?.data != null) {
-            stateLiveData.postValue(DefaultCurrentWeatherState(response))
+            currentWeatherStateLiveData.postValue(DefaultCurrentWeatherState(response))
         } else if (response?.exception != null) {
-            stateLiveData.postValue(ErrorCurrentWeatherState(response))
+            currentWeatherStateLiveData.postValue(ErrorCurrentWeatherState(response))
         }
     }
 

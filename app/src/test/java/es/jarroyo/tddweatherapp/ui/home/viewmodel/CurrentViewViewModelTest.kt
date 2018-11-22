@@ -105,7 +105,7 @@ class CurrentViewViewModelTest {
         runBlocking {
             viewModel.getCityCurrentWeather(CITY_NAME)
 
-            assertThat(viewModel.stateLiveData.value, instanceOf(LoadingCurrentWeatherState::class.java))
+            assertThat(viewModel.currentWeatherStateLiveData.value, instanceOf(LoadingCurrentWeatherState::class.java))
         }
     }
 
@@ -119,7 +119,7 @@ class CurrentViewViewModelTest {
             val request = GetCurrentWeatherByNameRequest(CITY_NAME)
             whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
-            viewModel.stateLiveData.observe(lifeCycleOwner, observer)
+            viewModel.currentWeatherStateLiveData.observe(lifeCycleOwner, observer)
 
             viewModel.initialize()
 
@@ -138,7 +138,7 @@ class CurrentViewViewModelTest {
             val request = GetCurrentWeatherByNameRequest(CITY_NAME)
             whenever(getCurrentWeatherByNameUseCase.execute(request)).thenReturn(response)
 
-            viewModel.stateLiveData.observe(lifeCycleOwner, observer)
+            viewModel.currentWeatherStateLiveData.observe(lifeCycleOwner, observer)
 
             viewModel.initialize()
 
