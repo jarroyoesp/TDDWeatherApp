@@ -62,6 +62,9 @@ class CurrentLocationViewModelTest {
     @Test
     fun `when viewModel is initilize then get currentLocation`() {
         runBlocking {
+            val response = Response(CurrentLocationFactory.createCurrentLocationTest())
+            whenever(getCurrentLocationUseCase.execute()).thenReturn(response)
+
             viewModel.getCurrentLocation()
             Mockito.verify(getCurrentLocationUseCase, Mockito.times(1)).execute()
         }
