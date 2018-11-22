@@ -15,8 +15,11 @@ import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherB
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ErrorForecastState
 import es.jarroyo.tddweatherapp.ui.home.model.ForecastState
+import es.jarroyo.tddweatherapp.ui.home.model.LoadingForecastState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.instanceOf
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,6 +30,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import kotlin.coroutines.CoroutineContext
+
+
 
 class CurrentViewViewModelTest {
 
@@ -71,6 +76,18 @@ class CurrentViewViewModelTest {
 
             viewModel.initialize()
             Mockito.verify(getCurrentWeatherByNameUseCase, Mockito.times(1)).execute()
+        }
+    }
+
+    /**
+     * Verify Loading State is set when make request to get current weather
+     */
+    @Test
+    fun `should loading state when make request`() {
+        runBlocking {
+            viewModel.getCityCurrentWeather("Zaragoza")
+
+            assertThat(viewModel.stateLiveData.value, instanceOf(LoadingForecastState::class.java))
         }
     }
 

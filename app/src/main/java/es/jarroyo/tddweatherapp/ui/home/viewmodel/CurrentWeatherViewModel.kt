@@ -31,21 +31,21 @@ class CurrentWeatherViewModel
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
-        stateLiveData.postValue(LoadingForecastState(Response(null)))
-
         getCityCurrentWeather("Zaragoza")
     }
 
     fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
+        stateLiveData.postValue(LoadingForecastState(Response(null)))
+
         val request = GetCurrentWeatherByNameRequest(cityName)
         val response = getCurrentWeatherByNameUseCase.execute(request)
         proccessCurrentWeather(response)
     }
 
     private fun proccessCurrentWeather(response: Response<CurrentWeather>){
-        if (response.error == null && response.data != null) {
+        if (response?.error == null && response?.data != null) {
             stateLiveData.postValue(DefaultForecastState(response))
-        } else if (response.exception != null) {
+        } else if (response?.exception != null) {
             stateLiveData.postValue(ErrorForecastState(response))
         }
     }
