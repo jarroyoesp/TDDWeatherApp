@@ -14,11 +14,10 @@ import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.home.model.CurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.home.model.LoadingCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.home.model.*
+import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentLocationViewModel
 import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentWeatherViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -33,6 +32,7 @@ class HomeFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: CurrentWeatherViewModel
+    private lateinit var currentLocationviewModel: CurrentLocationViewModel
 
     private var isLoading = false
 
@@ -67,7 +67,10 @@ class HomeFragment : BaseFragment() {
 
         //Observer
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentWeatherViewModel::class.java)
-        observeViewModel()
+        currentLocationviewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentLocationViewModel::class.java)
+
+        observeCurrentWeatherViewModel()
+        observeCurrentLocationViewModel()
     }
 
     interface OnFragmentInteractionListener {
@@ -90,12 +93,14 @@ class HomeFragment : BaseFragment() {
     /****************************************************************************
      * OBSERVER
      ***************************************************************************/
-    private fun observeViewModel() {
-        viewModel.currentWeatherStateLiveData.observe(this, stateObserver)
+
+    /** CURRENT WEATHER OBSERVER **/
+    private fun observeCurrentWeatherViewModel() {
+        viewModel.currentWeatherStateLiveData.observe(this, currentWeatherstateObserver)
         viewModel.initialize()
     }
 
-    private val stateObserver = Observer<CurrentWeatherState> { state ->
+    private val currentWeatherstateObserver = Observer<CurrentWeatherState> { state ->
         state?.let {
             when (state) {
                 is DefaultCurrentWeatherState -> {
@@ -117,6 +122,46 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
+
+    /** CURRENT LOCATION OBSERVER **/
+    private fun observeCurrentLocationViewModel() {
+        currentLocationviewModel.currentLocationStateLiveData.observe(this, currentLocationstateObserver)
+        currentLocationviewModel.getCurrentLocation()
+    }
+
+    private val currentLocationstateObserver = Observer<CurrentLocationState> { state ->
+        state?.let {
+            when (state) {
+                is DefaultCurrentLocationState -> {
+                    isLoading = false
+                    hideLoading()
+                    hideError()
+                    showCurrentLocation(it.response.data)
+                }
+                is LoadingCurrentLocationState -> {
+                    isLoading = true
+                    showLoading()
+                    hideError()
+                }
+                is ErrorCurrentLocationState -> {
+                    isLoading = false
+                    hideLoading()
+                    //showError((it as ErrorCurrentWeatherState))
+                }
+            }
+        }
+    }
+
+    /**
+     * SHOW CURRENT LOCATION
+     */
+    private fun showCurrentLocation(currentLocation: CurrentLocation?){
+        if (currentLocation != null) {
+            val info = "Location: ${currentLocation.cityName}"
+            fragment_home_tv_current_location.text = info
+        }
+    }
+
 
     /**
      * SHOW CURRENT WEATHER
