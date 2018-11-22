@@ -10,7 +10,7 @@ import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
-import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentWeatherState

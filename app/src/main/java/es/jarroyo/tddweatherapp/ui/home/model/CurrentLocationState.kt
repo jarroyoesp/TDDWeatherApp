@@ -1,12 +1,12 @@
 package es.jarroyo.tddweatherapp.ui.home.model
 
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 
 
 sealed class CurrentLocationState {
-    abstract val response: Response<CurrentLocation>
+    abstract val response: Response<WeatherLocation>
 }
-data class DefaultCurrentLocationState(override val response: Response<CurrentLocation>) : CurrentLocationState()
-data class LoadingCurrentLocationState(override val response: Response<CurrentLocation>) : CurrentLocationState()
-data class ErrorCurrentLocationState(override val response: Response<CurrentLocation>) : CurrentLocationState()
+data class DefaultCurrentLocationState(override val response: Response<WeatherLocation>) : CurrentLocationState()
+data class LoadingCurrentLocationState(override val response: Response<WeatherLocation>) : CurrentLocationState()
+data class ErrorCurrentLocationState(override val response: Response<WeatherLocation>) : CurrentLocationState()

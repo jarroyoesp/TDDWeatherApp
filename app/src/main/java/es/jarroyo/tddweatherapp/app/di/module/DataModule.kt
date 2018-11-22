@@ -3,6 +3,8 @@ package es.jarroyo.tddweatherapp.app.di.module
 import com.microhealth.lmc.utils.NetworkSystemAbstract
 import dagger.Module
 import dagger.Provides
+import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationEntitytoWeatherLocationMapper
+import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationToWeatherLocationEntityMapper
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.data.source.network.INetworkDataSource
 import es.jarroyo.tddweatherapp.data.source.network.NetworkDataSource
@@ -20,4 +22,16 @@ class DataModule {
     @Provides @Singleton
     fun provideNetworkDataSource(networkSystemBase: NetworkSystemAbstract) =
             NetworkDataSource(networkSystemBase) as INetworkDataSource
+
+    @Provides
+    @Singleton
+    fun provideWeatherLocationEntityToWeatherLocation()
+            = WeatherLocationEntitytoWeatherLocationMapper()
+
+
+    @Provides
+    @Singleton
+    fun provideWeatherLocationToWeatherLocationEntityMapper()
+            = WeatherLocationToWeatherLocationEntityMapper()
+
 }

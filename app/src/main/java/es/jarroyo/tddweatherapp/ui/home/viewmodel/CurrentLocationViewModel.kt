@@ -3,8 +3,8 @@ package es.jarroyo.tddweatherapp.ui.home.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
-import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
+import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.CurrentLocationState
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentLocationState
 import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentLocationState
@@ -32,7 +32,7 @@ class CurrentLocationViewModel
         processCurrentLocationResponse(response)
     }
 
-    fun processCurrentLocationResponse(response: Response<CurrentLocation>){
+    fun processCurrentLocationResponse(response: Response<WeatherLocation>){
         if (response.data != null) {
             currentLocationStateLiveData.postValue(DefaultCurrentLocationState(response))
         } else if (response.exception != null) {

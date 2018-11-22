@@ -14,7 +14,7 @@ import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
-import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.home.model.*
 import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentLocationViewModel
@@ -155,9 +155,9 @@ class HomeFragment : BaseFragment() {
     /**
      * SHOW CURRENT LOCATION
      */
-    private fun showCurrentLocation(currentLocation: CurrentLocation?){
-        if (currentLocation != null) {
-            val info = "Location: ${currentLocation.cityName}"
+    private fun showCurrentLocation(weatherLocation: WeatherLocation?){
+        if (weatherLocation != null) {
+            val info = "Location: ${weatherLocation.cityName}"
             fragment_home_tv_current_location.text = info
         }
     }

@@ -7,9 +7,9 @@ import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.whenever
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocationFactory
-import es.jarroyo.tddweatherapp.domain.usecase.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.ui.home.model.CurrentLocationState
 import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentLocationState
 import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentLocationState
@@ -27,7 +27,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 
-class CurrentLocationViewModelTest {
+class WeatherLocationViewModelTest {
     @get: Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
@@ -93,7 +93,7 @@ class CurrentLocationViewModelTest {
     @Test
     fun `when received error getting current location then CurrrentLocationState is ErrorState`() {
         runBlocking {
-            val response = Response<CurrentLocation>(exception = IllegalArgumentException())
+            val response = Response<WeatherLocation>(exception = IllegalArgumentException())
             whenever(getCurrentLocationUseCase.execute()).thenReturn(response)
 
             viewModel.currentLocationStateLiveData.observe(lifeCycleOwner, observer)
