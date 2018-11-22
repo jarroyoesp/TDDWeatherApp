@@ -1,8 +1,8 @@
 package es.jarroyo.tddweatherapp.data.repository
 
-import android.location.Location
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.domain.model.Response
+import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocation
 
 class LocationRepository(
     private val diskDataSource: DiskDataSource
@@ -13,7 +13,7 @@ class LocationRepository(
     /***********************************************************************************************
      * GET REPOSITORIES LIST
      **********************************************************************************************/
-    suspend fun getCurrentLocation(): Response<Location> {
+    suspend fun getCurrentLocation(): Response<CurrentLocation> {
         // Todo get current location
         return Response(null)
     }

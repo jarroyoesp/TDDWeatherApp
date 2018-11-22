@@ -34,7 +34,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 
-class CurrentViewViewModelTest {
+class CurrentWeatherViewModelTest {
 
     @get: Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -121,7 +121,7 @@ class CurrentViewViewModelTest {
 
             viewModel.currentWeatherStateLiveData.observe(lifeCycleOwner, observer)
 
-            viewModel.initialize()
+            viewModel.getCityCurrentWeather(CITY_NAME)
 
             verify(observer).onChanged(DefaultCurrentWeatherState(response))
         }
@@ -140,7 +140,7 @@ class CurrentViewViewModelTest {
 
             viewModel.currentWeatherStateLiveData.observe(lifeCycleOwner, observer)
 
-            viewModel.initialize()
+            viewModel.getCityCurrentWeather(CITY_NAME)
 
             verify(observer).onChanged(ErrorCurrentWeatherState(response))
         }
