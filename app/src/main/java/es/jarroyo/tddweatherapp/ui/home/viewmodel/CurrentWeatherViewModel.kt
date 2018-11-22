@@ -33,7 +33,11 @@ class CurrentWeatherViewModel
     }
 
     fun initialize() = launchSilent(coroutineContext, job) {
-        getCityCurrentWeather("Zaragoza")
+        getCurrentLocation()
+    }
+
+    fun getCurrentLocation() = launchSilent(coroutineContext, job) {
+        getCurrentLocationUseCase.execute()
     }
 
     fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
