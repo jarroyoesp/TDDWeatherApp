@@ -159,6 +159,7 @@ class HomeFragment : BaseFragment() {
         if (weatherLocation != null) {
             val info = "Location: ${weatherLocation.cityName}"
             fragment_home_tv_current_location.text = info
+            fragment_home_et_city.setText(weatherLocation.cityName)
         }
     }
 
