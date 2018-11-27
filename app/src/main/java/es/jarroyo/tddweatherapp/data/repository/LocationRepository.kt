@@ -4,7 +4,7 @@ import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationEntitytoWeat
 import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationToWeatherLocationEntityMapper
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.location.CurrentLocationFactory
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.ui.App
@@ -24,7 +24,7 @@ class LocationRepository(
      **********************************************************************************************/
     fun getCurrentLocation(): Response<WeatherLocation> {
         // Todo get current location
-        return Response(CurrentLocationFactory.createCurrentLocationTest())
+        return Response(WeatherLocationFactory.createCurrentLocationTest())
     }
 
     /***********************************************************************************************

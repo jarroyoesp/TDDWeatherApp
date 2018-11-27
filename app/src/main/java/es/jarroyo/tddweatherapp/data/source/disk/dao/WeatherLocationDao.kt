@@ -13,7 +13,7 @@ interface WeatherLocationDao {
     fun deleteWeatherLocation(weatherLocation: WeatherLocationEntity)
 
     @Query("DELETE FROM WEATHER_LOCATION")
-    fun deleteAllWeatherLocation()
+    fun deleteAll()
 
     @Query("SELECT * FROM WEATHER_LOCATION")
     fun getAllWeatherLocationList():List<WeatherLocationEntity>

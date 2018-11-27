@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
+import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 
 class BaseActivityRule<A : Activity>(activityClass: Class<A>, initialTouchMode: Boolean, launchActivity: Boolean) : ActivityTestRule<A>(activityClass, initialTouchMode, launchActivity) {
 
@@ -27,7 +28,7 @@ class BaseActivityRule<A : Activity>(activityClass: Class<A>, initialTouchMode: 
     override fun afterActivityFinished() {
         // super.afterActivityFinshed()
         // Clean up mocks
-        // DiskDataSource(getContext()).deleteAllTables()
+        DiskDataSource(getContext()).deleteAllTables()
     }
 
     fun launchActivity() {

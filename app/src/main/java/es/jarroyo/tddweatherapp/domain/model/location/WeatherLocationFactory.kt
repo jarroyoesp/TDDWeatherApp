@@ -1,8 +1,10 @@
 package es.jarroyo.tddweatherapp.domain.model.location
 
-object CurrentLocationFactory {
+object WeatherLocationFactory {
+    val locationTest = "Zaragoza"
+
     fun createCurrentLocationTest(): WeatherLocation {
-        return WeatherLocation(0, "Zaragoza")
+        return WeatherLocation(0, locationTest)
     }
 
 }

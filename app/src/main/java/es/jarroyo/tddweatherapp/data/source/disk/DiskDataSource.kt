@@ -19,10 +19,16 @@ class DiskDataSource(appContext: Context) {
      **********************************************************************************************/
     fun insertWeatherLocation(weatherLocationEntity: WeatherLocationEntity) = database?.weatherLocationDao()?.insertWeatherLocation(weatherLocationEntity)
 
-    fun deleteAllUsers() = database?.weatherLocationDao()?.deleteAllWeatherLocation()
+    fun deleteAll() = database?.weatherLocationDao()?.deleteAll()
 
     fun deleteWeatherLocation(weatherLocationEntity: WeatherLocationEntity) = database?.weatherLocationDao()?.deleteWeatherLocation(weatherLocationEntity)
 
     fun getAllWeatherLocationList() = database?.weatherLocationDao()?.getAllWeatherLocationList()
 
+    /***********************************************************************************************
+     * COMMON
+     **********************************************************************************************/
+    fun deleteAllTables() {
+        database?.weatherLocationDao()?.deleteAll()
+    }
 }
