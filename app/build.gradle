@@ -86,6 +86,7 @@ dependencies {
     // TEST
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.mockito:mockito-core:$mockito_version"
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0'
@@ -100,6 +101,10 @@ dependencies {
     androidTestImplementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // BUTTERKNIFE
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
