@@ -24,14 +24,19 @@ android {
             buildConfigField STRING, "OPEN_WEATHER_API_KEY", '"f11780da3330643cd659bb6dbb4e44a3"'
         }
 
-
         debug {
+            testCoverageEnabled = true
             applicationIdSuffix '.debug'
         }
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        mock {
+            initWith debug
+            applicationIdSuffix = ".mock"
         }
     }
 

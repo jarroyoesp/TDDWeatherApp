@@ -50,6 +50,7 @@ class HomeActivityTest {
         // Click search
         onView(withId(R.id.fragment_home_button_search)).perform(click())
 
+        // Check data current weather is showed
         onView(withId(R.id.fragment_home_tv_current_weather)).check(matches(withText(containsString(CurrentWeatherFactory.currentTemp))))
     }
 }
