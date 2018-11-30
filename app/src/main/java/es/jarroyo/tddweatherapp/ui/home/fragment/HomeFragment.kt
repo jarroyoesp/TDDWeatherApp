@@ -13,6 +13,7 @@ import butterknife.OnClick
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
+import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
@@ -107,7 +108,8 @@ class HomeFragment : BaseFragment() {
                     isLoading = false
                     hideLoading()
                     hideError()
-                    showCurrentWeather(it.response.data)
+                    val successData = it.response as Response.Success
+                    showCurrentWeather(successData.data)
                 }
                 is LoadingCurrentWeatherState -> {
                     isLoading = true
@@ -136,7 +138,8 @@ class HomeFragment : BaseFragment() {
                     isLoading = false
                     hideLoading()
                     hideError()
-                    showCurrentLocation(it.response.data)
+                    val success = it.response as Response.Success
+                    showCurrentLocation(success.data)
                 }
                 is LoadingCurrentLocationState -> {
                     isLoading = true
@@ -193,7 +196,8 @@ class HomeFragment : BaseFragment() {
      */
     private fun showError(errorForecastState: ErrorCurrentWeatherState){
         fragment_home_layout_error.visibility = View.VISIBLE
-        fragment_home_tv_status.text = errorForecastState.response.exception?.message
+        val error = errorForecastState.response as Response.Error
+        fragment_home_tv_status.text = error.exception.message
     }
 
     /**

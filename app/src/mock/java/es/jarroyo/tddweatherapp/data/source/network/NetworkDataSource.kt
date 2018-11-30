@@ -17,7 +17,7 @@ class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INet
      */
     override suspend fun getCurrentWeatherByName(byNameRequest: GetCurrentWeatherByNameRequest): Response<CurrentWeather> {
         val currentWeather = CurrentWeatherFactory.createCurrentWeatherTest()
-        return Response(currentWeather)
+        return Response.Success(currentWeather)
     }
 
     var okHttpClient = OkHttpClient.Builder()

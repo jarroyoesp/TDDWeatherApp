@@ -1,7 +1,7 @@
 package es.jarroyo.tddweatherapp.domain.model
 
-class Response<T>(
-    var data: T? = null,
-    var error: String? = null,
-    var exception: Throwable? = null
-)
+sealed class Response<out T> {
+    class Success<out T>(val data: T) : Response<T>()
+
+    class Error(val exception: Throwable) : Response<Nothing>()
+}

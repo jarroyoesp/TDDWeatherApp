@@ -11,7 +11,7 @@ abstract class BaseUseCase<R : BaseRequest, T>() {
 
         val validated = request?.validate() ?: true
         if (validated) return run()
-        return Response(data = null, error = "Error validating request data")
+        return Response.Error(IllegalArgumentException())
     }
 
     abstract suspend fun run(): Response<T>

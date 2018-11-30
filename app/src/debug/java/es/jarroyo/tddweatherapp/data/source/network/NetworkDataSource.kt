@@ -31,17 +31,15 @@ class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INet
      */
     override suspend fun getCurrentWeatherByName(byNameRequest: GetCurrentWeatherByNameRequest): Response<CurrentWeather> {
         val openWeatherAPI = initRetrofitOpenWateherAPI()
-        var response = Response<CurrentWeather>()
         try {
             val currentWeather =
                 openWeatherAPI.currentWeatherByName(byNameRequest.cityName)
                     .await()
 
-            response.data = currentWeather
+            return Response.Success(currentWeather)
         } catch (e: Exception) {
-            response.exception = e
+            return Response.Error(e)
         }
-        return response
     }
 
     var okHttpClient = OkHttpClient.Builder()

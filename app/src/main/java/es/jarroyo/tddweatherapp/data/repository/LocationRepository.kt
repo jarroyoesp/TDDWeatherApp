@@ -4,8 +4,8 @@ import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationEntitytoWeat
 import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationToWeatherLocationEntityMapper
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.ui.App
 
@@ -24,7 +24,7 @@ class LocationRepository(
      **********************************************************************************************/
     fun getCurrentLocation(): Response<WeatherLocation> {
         // Todo get current location
-        return Response(WeatherLocationFactory.createCurrentLocationTest())
+        return Response.Success(WeatherLocationFactory.createCurrentLocationTest())
     }
 
     /***********************************************************************************************
@@ -32,7 +32,7 @@ class LocationRepository(
      **********************************************************************************************/
     fun saveWeatherLocationList(request: SaveWeatherLocationRequest): Response<WeatherLocation> {
         diskDataSource.insertWeatherLocation(weatherLocationToWeatherLocationEntityMapper.map(request.weatherLocation))
-        return Response(request.weatherLocation)
+        return Response.Success(request.weatherLocation)
     }
 
     /***********************************************************************************************
@@ -40,7 +40,7 @@ class LocationRepository(
      **********************************************************************************************/
     fun getAllWeatherLocationList(): Response<List<WeatherLocation>> {
         val weatherLocationListEntity = diskDataSource.getAllWeatherLocationList()
-        return Response(weatherLocationEntitytoWeatherLocationMapper.mapList(weatherLocationListEntity))
+        return Response.Success(weatherLocationEntitytoWeatherLocationMapper.mapList(weatherLocationListEntity))
     }
 
 

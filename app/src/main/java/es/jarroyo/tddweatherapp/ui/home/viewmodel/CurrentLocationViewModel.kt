@@ -38,9 +38,9 @@ class CurrentLocationViewModel
     }
 
     fun processCurrentLocationResponse(response: Response<WeatherLocation>){
-        if (response.data != null) {
+        if (response is Response.Success) {
             currentLocationStateLiveData.postValue(DefaultCurrentLocationState(response))
-        } else if (response.exception != null) {
+        } else if (response is Response.Error) {
             currentLocationStateLiveData.postValue(ErrorCurrentLocationState(response))
         }
     }
@@ -55,9 +55,9 @@ class CurrentLocationViewModel
     }
 
     fun processSaveWeatherLocationResponse(response: Response<WeatherLocation>){
-        if (response.data != null) {
+        if (response is Response.Success) {
             saveWeatherLocationdStateLiveData.postValue(DefaultSaveWeatherLocationState(response))
-        } else if (response.exception != null) {
+        } else if (response is Response.Error) {
             saveWeatherLocationdStateLiveData.postValue(ErrorSaveWeatherLocationState(response))
         }
     }
