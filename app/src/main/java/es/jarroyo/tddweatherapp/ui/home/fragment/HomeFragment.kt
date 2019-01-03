@@ -19,7 +19,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
-import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentWeatherViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class HomeFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: CurrentWeatherViewModel
+    private lateinit var viewModel: WeatherViewModel
     private lateinit var locationviewModel: LocationViewModel
 
     private var isLoading = false
@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         //Observer
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentWeatherViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(WeatherViewModel::class.java)
         locationviewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
 
         observeCurrentWeatherViewModel()

@@ -18,7 +18,7 @@ import kotlinx.coroutines.Job
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class CurrentWeatherViewModel
+class WeatherViewModel
     @Inject
     constructor(private val getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase,
                 private val getCurrentLocationUseCase: GetCurrentLocationUseCase,

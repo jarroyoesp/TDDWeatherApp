@@ -34,12 +34,12 @@ import kotlin.coroutines.CoroutineContext
 
 
 
-class CurrentWeatherViewModelTest {
+class WeatherViewModelTest {
 
     @get: Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    lateinit  var viewModel : CurrentWeatherViewModel
+    lateinit  var viewModel : WeatherViewModel
 
     var coroutineContext: CoroutineContext = Dispatchers.Unconfined
 
@@ -147,6 +147,6 @@ class CurrentWeatherViewModelTest {
     }
 
     private fun prepareViewModel(){
-        viewModel = CurrentWeatherViewModel(getCurrentWeatherByNameUseCase, getCurrentLocationUseCase, coroutineContext)
+        viewModel = WeatherViewModel(getCurrentWeatherByNameUseCase, getCurrentLocationUseCase, coroutineContext)
     }
 }
