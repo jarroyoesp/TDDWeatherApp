@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.ui.home.viewmodel
+package es.jarroyo.tddweatherapp.ui.viewmodel
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Lifecycle
@@ -13,10 +13,10 @@ import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactor
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.DefaultCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.home.model.ErrorCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.home.model.CurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.home.model.LoadingCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.ErrorCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.LoadingCurrentWeatherState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.instanceOf

@@ -17,9 +17,9 @@ import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
-import es.jarroyo.tddweatherapp.ui.home.model.*
-import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentLocationViewModel
-import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentWeatherViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentLocationViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentWeatherViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 

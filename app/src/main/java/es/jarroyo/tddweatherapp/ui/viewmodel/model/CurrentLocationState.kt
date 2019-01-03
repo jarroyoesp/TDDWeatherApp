@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.ui.home.model
+package es.jarroyo.tddweatherapp.ui.viewmodel.model
 
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation

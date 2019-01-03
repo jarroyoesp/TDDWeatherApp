@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.ui.home.viewmodel
+package es.jarroyo.tddweatherapp.ui.viewmodel
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Lifecycle
@@ -11,7 +11,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

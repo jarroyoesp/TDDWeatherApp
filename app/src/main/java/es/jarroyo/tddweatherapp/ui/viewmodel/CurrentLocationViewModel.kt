@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.ui.home.viewmodel
+package es.jarroyo.tddweatherapp.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
-import es.jarroyo.tddweatherapp.ui.home.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
