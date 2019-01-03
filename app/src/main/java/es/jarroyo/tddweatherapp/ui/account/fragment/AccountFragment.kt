@@ -14,6 +14,7 @@ import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.account.fragment.AccountFragmentModule
 import es.jarroyo.tddweatherapp.app.navigator.Navigator
 import es.jarroyo.tddweatherapp.domain.model.Response
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.account.adapter.AccountListRVAdapter
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
@@ -49,7 +50,8 @@ class AccountFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflateView(inflater, container)
+        val view = inflateView(inflater, container)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,10 +61,41 @@ class AccountFragment : BaseFragment() {
         locationviewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
         observeCurrentLocationViewModel()
 
+        configRecyclerView()
+
     }
 
     override fun onResume() {
         super.onResume()
+        getLocationListFromViewModel()
+    }
+
+    /**
+     * CONFIG VIEW
+     */
+    fun configRecyclerView() {
+        mLayoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL, false
+        )
+        fragment_account_rv.layoutManager = mLayoutManager
+
+        mRvAdapter = AccountListRVAdapter(
+            listenerLocationClicked = {
+
+            },
+            listenerAddLocationClicked = {
+
+            }
+        )
+
+        fragment_account_rv.adapter = mRvAdapter
+        fragment_account_swipe_refresh_rv.setOnRefreshListener {
+            getLocationListFromViewModel()
+        }
+    }
+
+    private fun getLocationListFromViewModel() {
         locationviewModel.getWeatherLocationList()
     }
 
@@ -82,7 +115,7 @@ class AccountFragment : BaseFragment() {
                 is SuccessLocationListState -> {
                     hideLoading()
                     val success = it.response as Response.Success
-                    //showLocationList(success.data)
+                    showLocationList(success.data)
                 }
                 is LoadingLocationListState -> {
                     showLoading()
@@ -93,6 +126,14 @@ class AccountFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    /**
+     * SHOW LOCATION LIST
+     */
+    private fun showLocationList(locationList: List<WeatherLocation>) {
+        mRvAdapter?.setLocationList(locationList)
+        mRvAdapter?.notifyDataSetChanged()
     }
 
     /**
