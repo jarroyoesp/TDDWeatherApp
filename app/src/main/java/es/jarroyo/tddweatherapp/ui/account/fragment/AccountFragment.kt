@@ -1,6 +1,7 @@
 package es.jarroyo.tddweatherapp.ui.account.fragment
 
 
+import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
@@ -9,6 +10,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.EditText
+import android.widget.TextView
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.account.fragment.AccountFragmentModule
@@ -59,7 +63,7 @@ class AccountFragment : BaseFragment() {
 
         ///Observer
         locationviewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
-        observeCurrentLocationViewModel()
+        observeLocationListViewModel()
 
         configRecyclerView()
 
@@ -85,7 +89,7 @@ class AccountFragment : BaseFragment() {
 
             },
             listenerAddLocationClicked = {
-
+                showDialogAddLocation()
             }
         )
 
@@ -104,7 +108,7 @@ class AccountFragment : BaseFragment() {
      ***************************************************************************/
 
     /** CURRENT LOCATION OBSERVER **/
-    private fun observeCurrentLocationViewModel() {
+    private fun observeLocationListViewModel() {
         locationviewModel.locationListLiveData.observe(this, locationListStateObserver)
 
     }
@@ -148,6 +152,27 @@ class AccountFragment : BaseFragment() {
      */
     private fun hideLoading() {
         fragment_account_swipe_refresh_rv.setRefreshing(false)
+    }
+
+    /**
+     * SHOW DIALOG ADD LOCATION
+     */
+    private fun showDialogAddLocation() {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_add_location)
+
+        val tvAccept = dialog.findViewById(R.id.dialog_add_location_tv_accept) as TextView
+        val etCityName = dialog.findViewById(R.id.dialog_add_location_et) as EditText
+        tvAccept.setOnClickListener {
+            locationviewModel.saveWeatherLocation(WeatherLocation(1, etCityName.text.toString()))
+            dialog.dismiss()
+        }
+
+
+
+        dialog.show()
     }
 
 

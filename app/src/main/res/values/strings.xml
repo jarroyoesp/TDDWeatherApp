@@ -11,4 +11,7 @@
     <string name="navigation_forecast">Forecast</string>
     <string name="navigation_account">Account</string>
     <string name="add_location">Add location</string>
+    <string name="type_your_new_location">Type your new Location</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="city">City</string>
 </resources>
