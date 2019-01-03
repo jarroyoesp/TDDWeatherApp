@@ -16,11 +16,11 @@ import es.jarroyo.tddweatherapp.app.navigator.Navigator
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.ui.account.adapter.AccountListRVAdapter
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.CurrentLocationState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.DefaultCurrentLocationState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.ErrorCurrentLocationState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.LoadingCurrentLocationState
-import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentLocationViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.ErrorLocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.LoadingLocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.LocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.SuccessLocationListState
 import kotlinx.android.synthetic.main.fragment_account.*
 import javax.inject.Inject
 
@@ -35,7 +35,7 @@ class AccountFragment : BaseFragment() {
     // View model
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var currentLocationviewModel: CurrentLocationViewModel
+    private lateinit var locationviewModel: LocationViewModel
 
     // RV Adapter
     private var mLayoutManager: LinearLayoutManager? = null
@@ -56,14 +56,14 @@ class AccountFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         ///Observer
-        currentLocationviewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentLocationViewModel::class.java)
+        locationviewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
         observeCurrentLocationViewModel()
 
     }
 
     override fun onResume() {
         super.onResume()
-        currentLocationviewModel.getCurrentLocation()
+        locationviewModel.getWeatherLocationList()
     }
 
     /****************************************************************************
@@ -72,22 +72,22 @@ class AccountFragment : BaseFragment() {
 
     /** CURRENT LOCATION OBSERVER **/
     private fun observeCurrentLocationViewModel() {
-        currentLocationviewModel.currentLocationStateLiveData.observe(this, currentLocationstateObserver)
+        locationviewModel.locationListLiveData.observe(this, locationListStateObserver)
 
     }
 
-    private val currentLocationstateObserver = Observer<CurrentLocationState> { state ->
+    private val locationListStateObserver = Observer<LocationListState> { state ->
         state?.let {
             when (state) {
-                is DefaultCurrentLocationState -> {
+                is SuccessLocationListState -> {
                     hideLoading()
                     val success = it.response as Response.Success
                     //showLocationList(success.data)
                 }
-                is LoadingCurrentLocationState -> {
+                is LoadingLocationListState -> {
                     showLoading()
                 }
-                is ErrorCurrentLocationState -> {
+                is ErrorLocationListState -> {
                     hideLoading()
                     //showError((it as ErrorCurrentWeatherState))
                 }
