@@ -5,8 +5,8 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 
 
 sealed class SaveWeatherLocationState {
-    abstract val response: Response<WeatherLocation>
+    abstract val response: Response<List<WeatherLocation>>
 }
-data class DefaultSaveWeatherLocationState(override val response: Response<WeatherLocation>) : SaveWeatherLocationState()
-data class LoadingSaveWeatherLocationState(override val response: Response<WeatherLocation>) : SaveWeatherLocationState()
-data class ErrorSaveWeatherLocationState(override val response: Response<WeatherLocation>) : SaveWeatherLocationState()
+data class SuccessSaveWeatherLocationState(override val response: Response<List<WeatherLocation>>) : SaveWeatherLocationState()
+data class LoadingSaveWeatherLocationState(override val response: Response<List<WeatherLocation>>) : SaveWeatherLocationState()
+data class ErrorSaveWeatherLocationState(override val response: Response<List<WeatherLocation>>) : SaveWeatherLocationState()

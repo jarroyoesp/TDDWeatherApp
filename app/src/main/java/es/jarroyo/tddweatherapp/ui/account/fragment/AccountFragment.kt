@@ -22,10 +22,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.account.adapter.AccountListRVAdapter
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.ErrorLocationListState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.LoadingLocationListState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.LocationListState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.SuccessLocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import javax.inject.Inject
 
@@ -110,7 +107,7 @@ class AccountFragment : BaseFragment() {
     /** CURRENT LOCATION OBSERVER **/
     private fun observeLocationListViewModel() {
         locationviewModel.locationListLiveData.observe(this, locationListStateObserver)
-
+        locationviewModel.saveWeatherLocationdStateLiveData.observe(this, saveLocationListStateObserver)
     }
 
     private val locationListStateObserver = Observer<LocationListState> { state ->
@@ -125,6 +122,25 @@ class AccountFragment : BaseFragment() {
                     showLoading()
                 }
                 is ErrorLocationListState -> {
+                    hideLoading()
+                    //showError((it as ErrorCurrentWeatherState))
+                }
+            }
+        }
+    }
+
+    private val saveLocationListStateObserver = Observer<SaveWeatherLocationState> { state ->
+        state?.let {
+            when (state) {
+                is SuccessSaveWeatherLocationState -> {
+                    hideLoading()
+                    val success = it.response as Response.Success
+                    showLocationList(success.data)
+                }
+                is LoadingSaveWeatherLocationState -> {
+                    showLoading()
+                }
+                is ErrorSaveWeatherLocationState -> {
                     hideLoading()
                     //showError((it as ErrorCurrentWeatherState))
                 }
@@ -166,7 +182,7 @@ class AccountFragment : BaseFragment() {
         val tvAccept = dialog.findViewById(R.id.dialog_add_location_tv_accept) as TextView
         val etCityName = dialog.findViewById(R.id.dialog_add_location_et) as EditText
         tvAccept.setOnClickListener {
-            locationviewModel.saveWeatherLocation(WeatherLocation(1, etCityName.text.toString()))
+            locationviewModel.saveWeatherLocation(WeatherLocation( cityName = etCityName.text.toString()))
             dialog.dismiss()
         }
 

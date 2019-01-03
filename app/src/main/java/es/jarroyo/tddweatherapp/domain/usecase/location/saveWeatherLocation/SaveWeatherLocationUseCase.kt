@@ -1,16 +1,13 @@
 package es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation
 
 import es.jarroyo.tddweatherapp.data.repository.LocationRepository
-import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.base.BaseUseCase
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 
-open class SaveWeatherLocationUseCase(val repository: LocationRepository) : BaseUseCase<SaveWeatherLocationRequest, WeatherLocation>() {
+open class SaveWeatherLocationUseCase(val repository: LocationRepository) : BaseUseCase<SaveWeatherLocationRequest, List<WeatherLocation>>() {
 
-    override suspend fun run(): Response<WeatherLocation> {
+    override suspend fun run(): Response<List<WeatherLocation>> {
         return repository.saveWeatherLocationList(request!!)
     }
 }

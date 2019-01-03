@@ -57,9 +57,9 @@ class LocationViewModel
         processSaveWeatherLocationResponse(response)
     }
 
-    fun processSaveWeatherLocationResponse(response: Response<WeatherLocation>){
+    fun processSaveWeatherLocationResponse(response: Response<List<WeatherLocation>>){
         if (response is Response.Success) {
-            saveWeatherLocationdStateLiveData.postValue(DefaultSaveWeatherLocationState(response))
+            saveWeatherLocationdStateLiveData.postValue(SuccessSaveWeatherLocationState(response))
         } else if (response is Response.Error) {
             saveWeatherLocationdStateLiveData.postValue(ErrorSaveWeatherLocationState(response))
         }

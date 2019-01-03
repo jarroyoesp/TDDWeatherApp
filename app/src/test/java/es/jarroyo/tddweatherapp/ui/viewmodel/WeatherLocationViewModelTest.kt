@@ -130,7 +130,7 @@ class WeatherLocationViewModelTest {
 
             viewModel.saveWeatherLocation(WeatherLocationFactory.createCurrentLocationTest())
 
-            Mockito.verify(observerSaveWeatherLocation).onChanged(DefaultSaveWeatherLocationState(response))
+            Mockito.verify(observerSaveWeatherLocation).onChanged(SuccessSaveWeatherLocationState(response))
         }
     }
 

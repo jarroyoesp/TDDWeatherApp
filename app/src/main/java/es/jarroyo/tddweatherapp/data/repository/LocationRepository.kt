@@ -30,9 +30,12 @@ class LocationRepository(
     /***********************************************************************************************
      * SAVE WEATHER LOCATION
      **********************************************************************************************/
-    fun saveWeatherLocationList(request: SaveWeatherLocationRequest): Response<WeatherLocation> {
+    fun saveWeatherLocationList(request: SaveWeatherLocationRequest): Response<List<WeatherLocation>> {
         diskDataSource.insertWeatherLocation(weatherLocationToWeatherLocationEntityMapper.map(request.weatherLocation))
-        return Response.Success(request.weatherLocation)
+
+        val locationListEntity = diskDataSource.getAllWeatherLocationList()
+        val locationList = weatherLocationEntitytoWeatherLocationMapper.mapList(locationListEntity)
+        return Response.Success(locationList)
     }
 
     /***********************************************************************************************
