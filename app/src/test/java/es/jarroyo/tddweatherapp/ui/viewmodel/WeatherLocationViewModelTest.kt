@@ -30,7 +30,7 @@ class WeatherLocationViewModelTest {
     @get: Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    lateinit  var viewModel : CurrentLocationViewModel
+    lateinit  var viewModel : LocationViewModel
 
     var coroutineContext: CoroutineContext = Dispatchers.Unconfined
 
@@ -151,7 +151,7 @@ class WeatherLocationViewModelTest {
 
 
     private fun prepareViewModel(){
-        viewModel = CurrentLocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase,  coroutineContext)
+        viewModel = LocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase,  coroutineContext)
     }
 
 

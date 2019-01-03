@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
@@ -14,10 +15,11 @@ import kotlinx.coroutines.Job
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class CurrentLocationViewModel
+class LocationViewModel
     @Inject
     constructor(private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
                 private val saveWeatherLocationUseCase: SaveWeatherLocationUseCase,
+                private val getAllWeatherLocationListUseCase: GetAllWeatherLocationListUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
@@ -25,6 +27,7 @@ class CurrentLocationViewModel
 
     var currentLocationStateLiveData = MutableLiveData<CurrentLocationState>()
     var saveWeatherLocationdStateLiveData = MutableLiveData<SaveWeatherLocationState>()
+    var locationListLiveData = MutableLiveData<LocationListState>()
 
     init {
     }
@@ -62,7 +65,21 @@ class CurrentLocationViewModel
         }
     }
 
+    /**
+     * GET WEATHER LOCATION LIST
+     */
+    fun getWeatherLocationList() = launchSilent(coroutineContext, job) {
+        val response = getAllWeatherLocationListUseCase.execute()
+        processGetWeatherLocationListResponse(response)
+    }
 
+    fun processGetWeatherLocationListResponse(response: Response<List<WeatherLocation>>){
+        if (response is Response.Success) {
+            locationListLiveData.postValue(SuccessLocationListState(response))
+        } else if (response is Response.Error) {
+            locationListLiveData.postValue(ErrorLocationListState(response))
+        }
+    }
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
     }
 

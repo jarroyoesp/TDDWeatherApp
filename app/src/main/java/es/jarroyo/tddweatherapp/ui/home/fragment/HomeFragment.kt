@@ -18,7 +18,7 @@ import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
-import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentLocationViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentWeatherViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class HomeFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: CurrentWeatherViewModel
-    private lateinit var currentLocationviewModel: CurrentLocationViewModel
+    private lateinit var locationviewModel: LocationViewModel
 
     private var isLoading = false
 
@@ -68,7 +68,7 @@ class HomeFragment : BaseFragment() {
 
         //Observer
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentWeatherViewModel::class.java)
-        currentLocationviewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrentLocationViewModel::class.java)
+        locationviewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
 
         observeCurrentWeatherViewModel()
         observeCurrentLocationViewModel()
@@ -127,8 +127,8 @@ class HomeFragment : BaseFragment() {
 
     /** CURRENT LOCATION OBSERVER **/
     private fun observeCurrentLocationViewModel() {
-        currentLocationviewModel.currentLocationStateLiveData.observe(this, currentLocationstateObserver)
-        currentLocationviewModel.getCurrentLocation()
+        locationviewModel.currentLocationStateLiveData.observe(this, currentLocationstateObserver)
+        locationviewModel.getCurrentLocation()
     }
 
     private val currentLocationstateObserver = Observer<CurrentLocationState> { state ->
