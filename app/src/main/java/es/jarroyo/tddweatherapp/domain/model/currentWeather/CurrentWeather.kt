@@ -16,15 +16,15 @@ data class CurrentWeather(
 )
 
 data class Main(
-    val humidity: Int,
-    val pressure: Int,
+    val humidity: Double,
+    val pressure: Double,
     val temp: Double,
     val temp_max: Double,
     val temp_min: Double
 )
 
 data class Wind(
-    val deg: Int,
+    val deg: Double,
     val speed: Double
 )
 
