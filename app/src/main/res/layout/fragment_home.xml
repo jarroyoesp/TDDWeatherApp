@@ -6,28 +6,8 @@
                 android:padding="@dimen/general_padding"
                 tools:context=".ui.home.fragment.HomeFragment">
 
-    <EditText android:id="@+id/fragment_home_et_city"
-              android:layout_width="match_parent"
-              android:layout_alignParentTop="true"
-              android:hint="@string/city_name"
-              android:layout_toLeftOf="@+id/fragment_home_button_search"
-              android:layout_height="wrap_content"/>
-
-    <Button android:id="@+id/fragment_home_button_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/search"/>
-
-    <TextView android:id="@+id/fragment_home_tv_current_location"
-              android:layout_below="@+id/fragment_home_et_city"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
-
 
     <TextView android:id="@+id/fragment_home_tv_current_weather"
-              android:layout_below="@+id/fragment_home_tv_current_location"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>
 

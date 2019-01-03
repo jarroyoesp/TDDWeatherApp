@@ -17,9 +17,9 @@ import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.WeatherViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -81,14 +81,8 @@ class HomeFragment : BaseFragment() {
     /****************************************************************************
      * ONCLICK
      ***************************************************************************/
-    @OnClick(R.id.fragment_home_button_search)
-    fun onClickSearch() {
-        viewModel.getCityCurrentWeather(fragment_home_et_city.text.toString())
-    }
-
     @OnClick(R.id.fragment_home_button_retry)
     fun onClickRetry() {
-        viewModel.getCityCurrentWeather(fragment_home_et_city.text.toString())
     }
 
     /****************************************************************************
@@ -127,26 +121,26 @@ class HomeFragment : BaseFragment() {
 
     /** CURRENT LOCATION OBSERVER **/
     private fun observeCurrentLocationViewModel() {
-        locationviewModel.currentLocationStateLiveData.observe(this, currentLocationstateObserver)
-        locationviewModel.getCurrentLocation()
+        locationviewModel.locationListLiveData.observe(this, locationListStateObserver)
+        locationviewModel.getWeatherLocationList()
     }
 
-    private val currentLocationstateObserver = Observer<CurrentLocationState> { state ->
+    private val locationListStateObserver = Observer<LocationListState> { state ->
         state?.let {
             when (state) {
-                is DefaultCurrentLocationState -> {
+                is SuccessLocationListState -> {
                     isLoading = false
                     hideLoading()
                     hideError()
                     val success = it.response as Response.Success
                     showCurrentLocation(success.data)
                 }
-                is LoadingCurrentLocationState -> {
+                is LoadingLocationListState -> {
                     isLoading = true
                     showLoading()
                     hideError()
                 }
-                is ErrorCurrentLocationState -> {
+                is ErrorLocationListState -> {
                     isLoading = false
                     hideLoading()
                     //showError((it as ErrorCurrentWeatherState))
@@ -158,11 +152,9 @@ class HomeFragment : BaseFragment() {
     /**
      * SHOW CURRENT LOCATION
      */
-    private fun showCurrentLocation(weatherLocation: WeatherLocation?){
-        if (weatherLocation != null) {
-            val info = "Location: ${weatherLocation.cityName}"
-            fragment_home_tv_current_location.text = info
-            fragment_home_et_city.setText(weatherLocation.cityName)
+    private fun showCurrentLocation(weatherLocationList: List<WeatherLocation>?){
+        if (weatherLocationList != null) {
+            viewModel.getCityCurrentWeather(weatherLocationList.first().cityName)
         }
     }
 
