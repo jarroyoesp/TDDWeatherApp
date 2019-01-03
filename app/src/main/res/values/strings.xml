@@ -7,4 +7,7 @@
     <string name="loading">Loading</string>
     <string name="search">Search</string>
     <string name="city_name">City name</string>
+
+    <string name="navigation_forecast">Forecast</string>
+    <string name="navigation_account">Account</string>
 </resources>

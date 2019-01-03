@@ -20,11 +20,40 @@ class HomeActivity : BaseActivity(), HomeFragment.OnFragmentInteractionListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        activity_home_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     /**
      * FRAGMENT INTERACTION
      */
     override fun onFragmentInteraction(uri: Uri) {
+
+    }
+
+    /**
+     * NAVIGATION BOTTOM
+     */
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                /*cleanFragmentBackStack()
+                mSurveyCompletedListFragment.refreshActiveList()*/
+                return@OnNavigationItemSelectedListener true
+            }
+            /*R.id.navigation_dashboard -> {
+                *//*if (activity_main_navigation.getSelectedItemId() != R.id.navigation_dashboard) {
+                    navigator.addSurveyCompletedListFragment(R.id.activity_main_layout_main)
+                }*//*
+                return@OnNavigationItemSelectedListener true
+            }*/
+            R.id.navigation_account -> {
+                if (activity_home_navigation.getSelectedItemId() != R.id.navigation_account) {
+                    navigator.addAccountFragment(R.id.activity_home_layout_main)
+                }
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
     }
 }
