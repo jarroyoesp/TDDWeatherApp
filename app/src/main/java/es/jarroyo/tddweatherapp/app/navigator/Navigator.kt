@@ -2,6 +2,7 @@ package es.jarroyo.tddweatherapp.app.navigator
 
 import android.content.Intent
 import android.os.Bundle
+import es.jarroyo.tddweatherapp.ui.account.fragment.AccountFragment
 import es.jarroyo.tddweatherapp.ui.base.BaseActivity
 
 class Navigator {
@@ -39,8 +40,13 @@ class Navigator {
      *  ACTIVITIES
      **********************************************************************************************/
 
-     /***********************************************************************************************
+    /***********************************************************************************************
      *  FRAGMENTS
      **********************************************************************************************/
-
+    fun addAccountFragment(contentIdLayout : Int) {
+        var accountFragment = AccountFragment.newInstance()
+        val ft = currentActivity?.supportFragmentManager?.beginTransaction()
+        ft?.addToBackStack(AccountFragment::class.java.simpleName)
+        ft?.add(contentIdLayout, accountFragment)?.commit()
+    }
 }

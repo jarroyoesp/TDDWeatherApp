@@ -5,8 +5,8 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
-import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentLocationViewModel
-import es.jarroyo.tddweatherapp.ui.home.viewmodel.CurrentWeatherViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentLocationViewModel
+import es.jarroyo.tddweatherapp.ui.viewmodel.CurrentWeatherViewModel
 import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
