@@ -8,8 +8,8 @@ import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.whenever
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
-import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +41,9 @@ class WeatherLocationViewModelTest {
     lateinit var saveWeatherLocationUseCase: SaveWeatherLocationUseCase
 
     @Mock
+    lateinit var getAllWeatherLocationListUseCase: GetAllWeatherLocationListUseCase
+
+    @Mock
     lateinit var observer: Observer<CurrentLocationState>
 
     @Mock
@@ -67,7 +70,7 @@ class WeatherLocationViewModelTest {
     @Test
     fun `when viewModel is initilize then get currentLocation`() {
         runBlocking {
-            val response = Response(WeatherLocationFactory.createCurrentLocationTest())
+            val response = Response.Success(WeatherLocationFactory.createCurrentLocationTest())
             whenever(getCurrentLocationUseCase.execute()).thenReturn(response)
 
             viewModel.getCurrentLocation()
@@ -81,7 +84,7 @@ class WeatherLocationViewModelTest {
     @Test
     fun `when received current location then CurrrentLocationState is DefaultState`() {
         runBlocking {
-            val response = Response(WeatherLocationFactory.createCurrentLocationTest())
+            val response = Response.Success(WeatherLocationFactory.createCurrentLocationTest())
             whenever(getCurrentLocationUseCase.execute()).thenReturn(response)
 
             viewModel.currentLocationStateLiveData.observe(lifeCycleOwner, observer)
@@ -98,7 +101,7 @@ class WeatherLocationViewModelTest {
     @Test
     fun `when received error getting current location then CurrrentLocationState is ErrorState`() {
         runBlocking {
-            val response = Response<WeatherLocation>(exception = IllegalArgumentException())
+            val response = Response.Error(exception = IllegalArgumentException())
             whenever(getCurrentLocationUseCase.execute()).thenReturn(response)
 
             viewModel.currentLocationStateLiveData.observe(lifeCycleOwner, observer)
@@ -112,7 +115,7 @@ class WeatherLocationViewModelTest {
     @Test
     fun `when call saveWeatherLocation(), SaveWeatherLocationUsecase is called once`() {
         runBlocking {
-            val response = Response(WeatherLocationFactory.createCurrentLocationTest())
+            val response = Response.Success(WeatherLocationFactory.createLocationList())
             whenever(saveWeatherLocationUseCase.execute()).thenReturn(response)
 
             viewModel.saveWeatherLocation(WeatherLocationFactory.createCurrentLocationTest())
@@ -123,7 +126,7 @@ class WeatherLocationViewModelTest {
     @Test
     fun `when received success after call saveWeatherLocation(), we receive the same weather location`() {
         runBlocking {
-            val response = Response(WeatherLocationFactory.createCurrentLocationTest())
+            val response = Response.Success(WeatherLocationFactory.createLocationList())
             whenever(saveWeatherLocationUseCase.execute()).thenReturn(response)
 
             viewModel.saveWeatherLocationdStateLiveData.observe(lifeCycleOwner, observerSaveWeatherLocation)
@@ -137,7 +140,7 @@ class WeatherLocationViewModelTest {
     @Test
     fun `when received error after call saveWeatherLocation(), we set ErrorSaveWeatherLocationSatate`() {
         runBlocking {
-            val response = Response<WeatherLocation>(exception = java.lang.IllegalArgumentException())
+            val response = Response.Error(exception = java.lang.IllegalArgumentException())
             whenever(saveWeatherLocationUseCase.execute()).thenReturn(response)
 
             viewModel.saveWeatherLocationdStateLiveData.observe(lifeCycleOwner, observerSaveWeatherLocation)
@@ -151,7 +154,7 @@ class WeatherLocationViewModelTest {
 
 
     private fun prepareViewModel(){
-        viewModel = LocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase,  coroutineContext)
+        viewModel = LocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase, getAllWeatherLocationListUseCase, coroutineContext)
     }
 
 

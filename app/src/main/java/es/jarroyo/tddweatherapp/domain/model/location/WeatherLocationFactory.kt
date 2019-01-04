@@ -7,4 +7,10 @@ object WeatherLocationFactory {
         return WeatherLocation(0, locationTest)
     }
 
+    fun createLocationList(): List<WeatherLocation> {
+        var locationList = mutableListOf<WeatherLocation>()
+        locationList.add(createCurrentLocationTest())
+        return locationList
+    }
+
 }

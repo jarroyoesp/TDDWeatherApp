@@ -1,6 +1,7 @@
 package es.jarroyo.tddweatherapp.domain.model.currentWeather
 
 import com.google.gson.Gson
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 
 object CurrentWeatherFactory {
 
@@ -17,7 +18,7 @@ object CurrentWeatherFactory {
             "\"dt\":1435658272,\n" +
             "\"sys\":{\"type\":1,\"id\":8166,\"message\":0.0166,\"country\":\"AU\",\"sunrise\":1435610796,\"sunset\":1435650870},\n" +
             "\"id\":2172797,\n" +
-            "\"name\":\"Cairns\",\n" +
+            "\"name\":\"${WeatherLocationFactory.locationTest}\",\n" +
             "\"cod\":200}"
 
     fun createCurrentWeatherTest(): CurrentWeather {

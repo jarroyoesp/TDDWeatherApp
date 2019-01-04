@@ -78,7 +78,7 @@ class WeatherViewModel
         }
 
         else if (response is Response.Error) {
-
+            //weatherListStateLiveData.postValue(ErrorCurrentWeatherState(response))
         }
     }
 

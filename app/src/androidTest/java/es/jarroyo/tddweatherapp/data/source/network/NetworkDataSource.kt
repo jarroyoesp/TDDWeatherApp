@@ -4,7 +4,6 @@ import com.microhealth.lmc.utils.NetworkSystemAbstract
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import java.io.IOException
@@ -15,9 +14,9 @@ class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INet
     /**
      * GET CURRENT WEATHER BY ID
      */
-    override suspend fun getCurrentWeatherByName(byNameRequest: GetCurrentWeatherByNameRequest): Response<CurrentWeather> {
+    override suspend fun getCurrentWeatherByName(cityName: String): Response<CurrentWeather> {
         val currentWeather = CurrentWeatherFactory.createCurrentWeatherTest()
-        return Response(currentWeather)
+        return Response.Success(currentWeather)
     }
 
     var okHttpClient = OkHttpClient.Builder()
