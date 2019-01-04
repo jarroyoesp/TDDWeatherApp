@@ -118,6 +118,7 @@ class HomeFragment : BaseFragment() {
      ***************************************************************************/
     @OnClick(R.id.fragment_home_button_retry)
     fun onClickRetry() {
+        getLocationList()
     }
 
     /****************************************************************************
@@ -182,8 +183,10 @@ class HomeFragment : BaseFragment() {
      * GET WEATHER LOCATION LIST
      */
     private fun getWeatherForLocationList(weatherLocationList: List<WeatherLocation>?){
-        if (weatherLocationList != null) {
+        if (weatherLocationList != null && weatherLocationList.size > 0) {
             weatherViewModel.getWeatherList(weatherLocationList)
+        } else {
+            showEmptyLocationList()
         }
     }
 
@@ -194,6 +197,14 @@ class HomeFragment : BaseFragment() {
     private fun showInRVWeatherList(weatherList: List<CurrentWeather>?){
         mRvAdapter?.setWeatherList(weatherList)
         mRvAdapter?.notifyDataSetChanged()
+    }
+
+    /**
+     * SHOW EMPTY LOCATIONS
+     */
+    private fun showEmptyLocationList() {
+        fragment_home_layout_error.visibility = View.VISIBLE
+        fragment_home_tv_status.text = getString(R.string.empty_location)
     }
 
     /**

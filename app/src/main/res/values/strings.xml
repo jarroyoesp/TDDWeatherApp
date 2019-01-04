@@ -14,4 +14,5 @@
     <string name="type_your_new_location">Type your new Location</string>
     <string name="aceptar">Aceptar</string>
     <string name="city">City</string>
+    <string name="empty_location">Add your location to get the forecast</string>
 </resources>
