@@ -39,16 +39,54 @@
                     android:textSize="18sp"/>
 
             <TextView
-                    android:id="@+id/item_rv_weather_tv_temp"
+                    android:id="@+id/item_rv_weather_tv_temp_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/item_rv_weather_iv_avatar"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
+                    android:layout_toRightOf="@+id/item_rv_weather_iv_avatar"/>
+
+            <TextView
+                    android:id="@+id/item_rv_weather_tv_temp_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/item_rv_weather_iv_avatar"/>
+
+            <TextView
+                    android:id="@+id/item_rv_weather_tv_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/item_rv_weather_iv_avatar"/>
+
+            <TextView
+                    android:id="@+id/item_rv_weather_tv_sunrise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/item_rv_weather_iv_avatar"/>
+
+            <TextView
+                    android:id="@+id/item_rv_weather_tv_sunset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/item_rv_weather_iv_avatar"/>
 
         </LinearLayout>
+
+        <TextView
+                android:id="@+id/item_rv_weather_tv_temp_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textSize="24sp"
+                android:textColor="@color/colorAccent"
+                android:layout_alignParentRight="true"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

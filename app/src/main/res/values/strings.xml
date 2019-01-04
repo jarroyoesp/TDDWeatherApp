@@ -15,4 +15,10 @@
     <string name="aceptar">Aceptar</string>
     <string name="city">City</string>
     <string name="empty_location">Add your location to get the forecast</string>
+    <string name="wind">Wind</string>
+    <string name="temp">Temp</string>
+    <string name="tempMax">Temp Max</string>
+    <string name="tempMin">Temp Min</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
 </resources>

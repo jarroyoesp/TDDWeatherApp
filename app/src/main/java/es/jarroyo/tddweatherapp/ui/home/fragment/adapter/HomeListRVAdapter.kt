@@ -1,6 +1,7 @@
 package es.jarroyo.tddweatherapp.ui.home.fragment.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +81,27 @@ class HomeListRVAdapter(
     class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(weather: CurrentWeather, position: Int, listener: (ItemWeather) -> Unit) = with(itemView) {
             item_rv_weather_tv_city.text = weather.name
-            item_rv_weather_tv_temp.text = weather.main.temp.toString()
+
+            // TEMP MAX/ MIN
+            var tempMaxRounded = Math.round(weather.main.temp_max)
+            var tempMinRounded = Math.round(weather.main.temp_min)
+            item_rv_weather_tv_temp_max.text = "${context.getString(R.string.tempMax)}: ${tempMaxRounded.toString()} ºC"
+            item_rv_weather_tv_temp_min.text = "${context.getString(R.string.tempMin)}: ${tempMinRounded.toString()} ºC"
+
+            // Wind
+            item_rv_weather_tv_wind.text = "${context.getString(R.string.wind)}: ${weather.wind.speed} km/h"
+
+            // TEMP BIG
+            var tempRounded = Math.round(weather.main.temp)
+            item_rv_weather_tv_temp_big.text = "${tempRounded.toString()} ºC"
+
+            // Sunrise
+            val timeSunrise = DateUtils.formatDateTime(context, weather.sys.sunrise * 1000L, DateUtils.FORMAT_SHOW_TIME)
+            item_rv_weather_tv_sunrise.text = "${context.getString(R.string.sunrise)}: ${timeSunrise}"
+
+            // Sunset
+            val timeSunset = DateUtils.formatDateTime(context, weather.sys.sunset * 1000L, DateUtils.FORMAT_SHOW_TIME)
+            item_rv_weather_tv_sunset.text = "${context.getString(R.string.sunset)}: ${timeSunset}"
 
             // ICON
             item_rv_weather_iv_avatar.loadUrl("${BuildConfig.OPEN_WEATHER_URL_ICON_BASE}${weather.weather.first().icon}.png")
