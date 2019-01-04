@@ -42,4 +42,11 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    protected fun cleanFragmentBackStack(){
+        val fm = getSupportFragmentManager()
+        for (i in 0 until fm.getBackStackEntryCount()) {
+            fm.popBackStack()
+        }
+    }
 }

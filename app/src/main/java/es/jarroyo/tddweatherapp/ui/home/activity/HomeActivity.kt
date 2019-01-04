@@ -37,8 +37,7 @@ class HomeActivity : BaseActivity(), HomeFragment.OnFragmentInteractionListener 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                /*cleanFragmentBackStack()
-                mSurveyCompletedListFragment.refreshActiveList()*/
+                cleanFragmentBackStack()
                 return@OnNavigationItemSelectedListener true
             }
             /*R.id.navigation_dashboard -> {
@@ -55,5 +54,18 @@ class HomeActivity : BaseActivity(), HomeFragment.OnFragmentInteractionListener 
             }
         }
         false
+    }
+
+    /**
+     * ON BACK PRESSED
+     */
+    override fun onBackPressed() {
+        val homeItem = activity_home_navigation.getMenu().getItem(0)
+        if (activity_home_navigation.getSelectedItemId() !== homeItem.getItemId()) {
+            // Select home item
+            activity_home_navigation.setSelectedItemId(homeItem.getItemId())
+        } else {
+            super.onBackPressed()
+        }
     }
 }
