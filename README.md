@@ -27,6 +27,5 @@ It is written 100% in Kotlin with both UI and Unit tests
 * [BufferApp](https://github.com/bufferapp/android-clean-architecture-boilerplate)
 * [Android-architecture](https://github.com/dmytrodanylyk/android-architecture)
 
-<img src="https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/home.png" width="48">
+<img src="https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/home.png" width="200">
 
-![alt text](https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/home.png)
