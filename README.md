@@ -28,5 +28,9 @@ It is written 100% in Kotlin with both UI and Unit tests
 * [Android-architecture](https://github.com/dmytrodanylyk/android-architecture)
 
 ## Captures
+
+### Home
 <img src="https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/home.png" width="200">
+
+### Account
 <img src="https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/locations.png" width="200">
