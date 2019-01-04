@@ -23,6 +23,7 @@ android {
         all {
             buildConfigField STRING, "OPEN_WEATHER_API_KEY", '"f11780da3330643cd659bb6dbb4e44a3"'
             buildConfigField STRING, "OPEN_WEATHER_URL_ICON_BASE", '"http://openweathermap.org/img/w/"'
+            buildConfigField STRING, "OPEN_WEATHER_API_URL_BASE", '"https://api.openweathermap.org"'
         }
 
         debug {

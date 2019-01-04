@@ -2,6 +2,7 @@ package es.jarroyo.tddweatherapp.data.source.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.microhealth.lmc.utils.NetworkSystemAbstract
+import es.jarroyo.tddweatherapp.BuildConfig
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import okhttp3.Interceptor
@@ -15,7 +16,7 @@ class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INet
 
     private fun initRetrofitOpenWateherAPI(): OpenWeatherAPI {
         val retrofit = Retrofit.Builder().apply {
-            baseUrl("https://api.openweathermap.org")
+            baseUrl(BuildConfig.OPEN_WEATHER_API_URL_BASE)
             client(okHttpClient)
             addConverterFactory(GsonConverterFactory.create())
             addCallAdapterFactory(CoroutineCallAdapterFactory())
