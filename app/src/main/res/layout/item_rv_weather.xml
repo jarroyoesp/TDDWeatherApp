@@ -18,7 +18,7 @@
         <ImageView
                 android:id="@+id/item_rv_weather_iv_avatar"
                 android:layout_width="30dp"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="@dimen/general_space"

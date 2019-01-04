@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import es.jarroyo.tddweatherapp.BuildConfig
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.ui.account.adapter.AccountListRVAdapter.Companion.TYPE_LOCATION
+import es.jarroyo.tddweatherapp.ui.base.loadUrl
 import kotlinx.android.synthetic.main.item_rv_weather.view.*
 
 class HomeListRVAdapter(
@@ -79,6 +81,9 @@ class HomeListRVAdapter(
         fun bind(weather: CurrentWeather, position: Int, listener: (ItemWeather) -> Unit) = with(itemView) {
             item_rv_weather_tv_city.text = weather.name
             item_rv_weather_tv_temp.text = weather.main.temp.toString()
+
+            // ICON
+            item_rv_weather_iv_avatar.loadUrl("${BuildConfig.OPEN_WEATHER_URL_ICON_BASE}${weather.weather.first().icon}.png")
             setOnClickListener {
                 listener(ItemWeather(position, weather))
             }
