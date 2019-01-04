@@ -5,8 +5,11 @@ import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeatherFactory
+import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListRequest
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.CurrentWeatherState
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.DefaultCurrentWeatherState
@@ -22,23 +25,17 @@ class WeatherViewModel
     @Inject
     constructor(private val getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase,
                 private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+                private val getWeatherListUseCase: GetWeatherListUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
     private var job: Job = Job()
 
     var currentWeatherStateLiveData = MutableLiveData<CurrentWeatherState>()
+    var weatherListStateLiveData = MutableLiveData<List<CurrentWeatherState>>()
 
     init {
         //currentWeatherStateLiveData.postValue(DefaultCurrentWeatherState(Response.Success(null)))
-    }
-
-    fun initialize() = launchSilent(coroutineContext, job) {
-        getCurrentLocation()
-    }
-
-    fun getCurrentLocation() = launchSilent(coroutineContext, job) {
-        getCurrentLocationUseCase.execute()
     }
 
     fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
@@ -57,6 +54,33 @@ class WeatherViewModel
         }
     }
 
+
+    /**
+     * GET WEATHER LIST
+     */
+    fun getWeatherList(locationList: List<WeatherLocation>) = launchSilent(coroutineContext, job) {
+        val request = GetWeatherListRequest(locationList)
+        val response = getWeatherListUseCase.execute(request)
+        processWeatherListResponse(response)
+    }
+
+    private fun processWeatherListResponse(response: Response<List<Response<CurrentWeather>>>) {
+        if (response is Response.Success) {
+            var weatherList = mutableListOf<CurrentWeatherState>()
+
+            for (responseWeather in response.data) {
+                if (responseWeather is Response.Success) {
+
+                    weatherList.add(DefaultCurrentWeatherState(responseWeather))
+                }
+            }
+            weatherListStateLiveData.postValue(weatherList)
+        }
+
+        else if (response is Response.Error) {
+
+        }
+    }
 
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
     }

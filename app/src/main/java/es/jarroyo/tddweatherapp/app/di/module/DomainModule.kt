@@ -5,6 +5,7 @@ import dagger.Provides
 import es.jarroyo.tddweatherapp.data.repository.LocationRepository
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
@@ -17,6 +18,10 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideGetCurrentWeatherUseCase(repository: WeatherRepository) = GetCurrentWeatherByNameUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetWeatherListUseCase(repository: WeatherRepository) = GetWeatherListUseCase(repository)
 
 
     @Provides

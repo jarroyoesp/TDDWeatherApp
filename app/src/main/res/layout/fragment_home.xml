@@ -7,9 +7,16 @@
                 tools:context=".ui.home.fragment.HomeFragment">
 
 
-    <TextView android:id="@+id/fragment_home_tv_current_weather"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
+    <!-- RECYCLER VIEW WEATHER LIST -->
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/fragment_home_swipe_refresh_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_home_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <ProgressBar

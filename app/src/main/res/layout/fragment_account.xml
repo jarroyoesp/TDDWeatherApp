@@ -5,7 +5,7 @@
                 android:background="@color/white"
                 android:padding="@dimen/general_padding">
 
-    <!-- RECYCLER VIEW RESEARCH LIST -->
+    <!-- RECYCLER VIEW LOCATION LIST -->
     <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/fragment_account_swipe_refresh_rv"
             android:layout_width="match_parent"

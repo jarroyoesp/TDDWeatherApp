@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
+import es.jarroyo.tddweatherapp.ui.home.fragment.adapter.HomeListRVAdapter
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.WeatherViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
@@ -32,10 +34,14 @@ class HomeFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: WeatherViewModel
-    private lateinit var locationviewModel: LocationViewModel
+    private lateinit var weatherViewModel: WeatherViewModel
+    private lateinit var locationViewModel: LocationViewModel
 
     private var isLoading = false
+
+    // RV Adapter
+    private var mLayoutManager: LinearLayoutManager? = null
+    private var mRvAdapter: HomeListRVAdapter? = null
 
     override fun setupInjection(applicationComponent: ApplicationComponent) {
         applicationComponent.plus(HomeFragmentModule(this)).injectTo(this)
@@ -66,16 +72,45 @@ class HomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //Observer
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(WeatherViewModel::class.java)
-        locationviewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
+        configRecyclerView()
 
-        observeCurrentWeatherViewModel()
-        observeCurrentLocationViewModel()
+        //Observer
+        weatherViewModel = ViewModelProviders.of(this, viewModelFactory).get(WeatherViewModel::class.java)
+        locationViewModel = ViewModelProviders.of(this, viewModelFactory).get(LocationViewModel::class.java)
+
+        observeLocationListViewModel()
+        observeWeatherListViewModel()
+
+        getLocationList()
     }
 
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
+    }
+
+    /**
+     * CONFIG RV VIEW
+     */
+    fun configRecyclerView() {
+        mLayoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL, false
+        )
+        fragment_home_rv.layoutManager = mLayoutManager
+
+        mRvAdapter = HomeListRVAdapter(
+            listenerAddLocationClicked = {
+
+            },
+            listenerWeatherClicked = {
+
+            }
+        )
+
+        fragment_home_rv.adapter = mRvAdapter
+        fragment_home_swipe_refresh_rv.setOnRefreshListener {
+            getLocationList()
+        }
     }
 
     /****************************************************************************
@@ -88,41 +123,13 @@ class HomeFragment : BaseFragment() {
     /****************************************************************************
      * OBSERVER
      ***************************************************************************/
-
-    /** CURRENT WEATHER OBSERVER **/
-    private fun observeCurrentWeatherViewModel() {
-        viewModel.currentWeatherStateLiveData.observe(this, currentWeatherstateObserver)
-        viewModel.initialize()
+    /** LOCATION LIST OBSERVER **/
+    private fun observeLocationListViewModel() {
+        locationViewModel.locationListLiveData.observe(this, locationListStateObserver)
     }
 
-    private val currentWeatherstateObserver = Observer<CurrentWeatherState> { state ->
-        state?.let {
-            when (state) {
-                is DefaultCurrentWeatherState -> {
-                    isLoading = false
-                    hideLoading()
-                    hideError()
-                    val successData = it.response as Response.Success
-                    showCurrentWeather(successData.data)
-                }
-                is LoadingCurrentWeatherState -> {
-                    isLoading = true
-                    showLoading()
-                    hideError()
-                }
-                is ErrorCurrentWeatherState -> {
-                    isLoading = false
-                    hideLoading()
-                    showError((it as ErrorCurrentWeatherState))
-                }
-            }
-        }
-    }
-
-    /** CURRENT LOCATION OBSERVER **/
-    private fun observeCurrentLocationViewModel() {
-        locationviewModel.locationListLiveData.observe(this, locationListStateObserver)
-        locationviewModel.getWeatherLocationList()
+    private fun getLocationList() {
+        locationViewModel.getWeatherLocationList()
     }
 
     private val locationListStateObserver = Observer<LocationListState> { state ->
@@ -133,7 +140,7 @@ class HomeFragment : BaseFragment() {
                     hideLoading()
                     hideError()
                     val success = it.response as Response.Success
-                    showCurrentLocation(success.data)
+                    getWeatherForLocationList(success.data)
                 }
                 is LoadingLocationListState -> {
                     isLoading = true
@@ -149,12 +156,34 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+
+    private fun observeWeatherListViewModel() {
+        weatherViewModel.weatherListStateLiveData.observe(this, weatherListStateObserver)
+    }
+
+    private val weatherListStateObserver = Observer<List<CurrentWeatherState>> { weatherStateList ->
+        weatherStateList?.let {
+            val weatherList = mutableListOf<CurrentWeather>()
+            for (weatherState in weatherStateList) {
+                when (weatherState) {
+                    is DefaultCurrentWeatherState -> {
+                        val success = weatherState.response as Response.Success
+                        weatherList.add(success.data)
+                    }
+                }
+            }
+
+            showInRVWeatherList(weatherList)
+        }
+    }
+
+
     /**
-     * SHOW CURRENT LOCATION
+     * GET WEATHER LOCATION LIST
      */
-    private fun showCurrentLocation(weatherLocationList: List<WeatherLocation>?){
+    private fun getWeatherForLocationList(weatherLocationList: List<WeatherLocation>?){
         if (weatherLocationList != null) {
-            viewModel.getCityCurrentWeather(weatherLocationList.first().cityName)
+            weatherViewModel.getWeatherList(weatherLocationList)
         }
     }
 
@@ -162,11 +191,9 @@ class HomeFragment : BaseFragment() {
     /**
      * SHOW CURRENT WEATHER
      */
-    private fun showCurrentWeather(currentWeather: CurrentWeather?){
-        if (currentWeather != null) {
-            val info = "Temp: ${currentWeather.main.temp}\nTemp Max: ${currentWeather.main.temp_max}\nTemp Min: ${currentWeather.main.temp_min}\n"
-            fragment_home_tv_current_weather.text = info
-        }
+    private fun showInRVWeatherList(weatherList: List<CurrentWeather>?){
+        mRvAdapter?.setWeatherList(weatherList)
+        mRvAdapter?.notifyDataSetChanged()
     }
 
     /**
@@ -174,6 +201,7 @@ class HomeFragment : BaseFragment() {
      */
     private fun showLoading(){
         fragment_home_loading.visibility = View.VISIBLE
+        fragment_home_swipe_refresh_rv.isRefreshing = true
     }
 
     /**
@@ -181,6 +209,7 @@ class HomeFragment : BaseFragment() {
      */
     private fun hideLoading(){
         fragment_home_loading.visibility = View.GONE
+        fragment_home_swipe_refresh_rv.isRefreshing = false
     }
 
     /**
