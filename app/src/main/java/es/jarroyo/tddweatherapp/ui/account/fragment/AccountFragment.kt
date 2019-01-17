@@ -87,6 +87,8 @@ class AccountFragment : BaseFragment() {
             },
             listenerAddLocationClicked = {
                 showDialogAddLocation()
+            }, listenerDeleteLocationClicked = {
+                deleteWeatherLocation(it.weatherLocation)
             }
         )
 
@@ -98,6 +100,10 @@ class AccountFragment : BaseFragment() {
 
     private fun getLocationListFromViewModel() {
         locationviewModel.getWeatherLocationList()
+    }
+
+    private fun deleteWeatherLocation(weatherLocation: WeatherLocation) {
+        locationviewModel.deleteWeatherLocation(weatherLocation)
     }
 
     /****************************************************************************

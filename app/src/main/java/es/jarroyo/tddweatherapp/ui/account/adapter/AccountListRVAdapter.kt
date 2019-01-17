@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.item_rv_account.view.*
 class AccountListRVAdapter(
     private var mWeatherLocationList: List<WeatherLocation>? = listOf<WeatherLocation>(),
     private val listenerLocationClicked: (ItemAccount) -> Unit,
+    private val listenerDeleteLocationClicked: (ItemAccount) -> Unit,
     private val listenerAddLocationClicked: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -63,7 +64,7 @@ class AccountListRVAdapter(
             TYPE_LOCATION -> {
                 val mWeatherLocation = mWeatherLocationList?.get(position)
                 val accountHolder = holder as LocationViewHolder
-                accountHolder.bind(mWeatherLocation!!, position, listenerLocationClicked)
+                accountHolder.bind(mWeatherLocation!!, position, listenerLocationClicked, listenerDeleteLocationClicked)
             }
 
             TYPE_ADD_LOCATION -> {
@@ -75,9 +76,13 @@ class AccountListRVAdapter(
     }
 
     class LocationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(weatherLocation: WeatherLocation, position: Int, listener: (ItemAccount) -> Unit) = with(itemView) {
+        fun bind(weatherLocation: WeatherLocation, position: Int, listener: (ItemAccount) -> Unit, listenerDeleted: (ItemAccount) -> Unit) = with(itemView) {
             item_rv_account_tv_title.text = weatherLocation.cityName
 
+            // Delete location
+            item_rv_account_iv_delete.setOnClickListener{
+                listenerDeleted(ItemAccount(position, weatherLocation))
+            }
 
             setOnClickListener {
                 listener(ItemAccount(position, weatherLocation))

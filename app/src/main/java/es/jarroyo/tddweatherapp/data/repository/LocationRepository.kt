@@ -6,6 +6,8 @@ import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
+import es.jarroyo.tddweatherapp.domain.model.location.toEntity
+import es.jarroyo.tddweatherapp.domain.usecase.location.deleteWeatherLocation.DeleteWeatherLocationRequest
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.ui.App
 
@@ -45,6 +47,20 @@ class LocationRepository(
         val weatherLocationListEntity = diskDataSource.getAllWeatherLocationList()
         return Response.Success(weatherLocationEntitytoWeatherLocationMapper.mapList(weatherLocationListEntity))
     }
+
+
+    /***********************************************************************************************
+     * DELETE WEATHER LOCATION
+     **********************************************************************************************/
+    fun deleteWeatherLocation(request: DeleteWeatherLocationRequest): Response<List<WeatherLocation>> {
+        diskDataSource.deleteWeatherLocation(request.weatherLocation.toEntity())
+
+        val weatherLocationListEntity = diskDataSource.getAllWeatherLocationList()
+        return Response.Success(weatherLocationEntitytoWeatherLocationMapper.mapList(weatherLocationListEntity))
+    }
+
+
+
 
 
 /*    fun requestCurrentLocation() {

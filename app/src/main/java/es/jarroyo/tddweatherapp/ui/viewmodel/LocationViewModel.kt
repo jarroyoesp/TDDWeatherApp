@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.location.deleteWeatherLocation.DeleteWeatherLocationRequest
+import es.jarroyo.tddweatherapp.domain.usecase.location.deleteWeatherLocation.DeleteWeatherLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
@@ -20,6 +22,7 @@ class LocationViewModel
     constructor(private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
                 private val saveWeatherLocationUseCase: SaveWeatherLocationUseCase,
                 private val getAllWeatherLocationListUseCase: GetAllWeatherLocationListUseCase,
+                private val deleteWeatherLocationUseCase: DeleteWeatherLocationUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
@@ -80,6 +83,16 @@ class LocationViewModel
             locationListLiveData.postValue(ErrorLocationListState(response))
         }
     }
+
+    /**
+     * DELETE WEATHER LOCATION
+     */
+    fun deleteWeatherLocation(weatherLocation: WeatherLocation) = launchSilent(coroutineContext, job) {
+        val request = DeleteWeatherLocationRequest(weatherLocation)
+        val response = deleteWeatherLocationUseCase.execute(request)
+        processGetWeatherLocationListResponse(response)
+    }
+
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
     }
 
