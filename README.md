@@ -34,3 +34,6 @@ It is written 100% in Kotlin with both UI and Unit tests
 
 ### Account
 <img src="https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/locations.png" width="200">
+
+### Forecast detail
+<img src="https://github.com/jarroyoesp/TDDWeatherApp/blob/master/images/forecast_detail.png" width="200">
