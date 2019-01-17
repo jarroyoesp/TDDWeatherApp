@@ -21,6 +21,7 @@ It is written 100% in Kotlin with both UI and Unit tests
 * [Gson](https://github.com/google/gson)
 * [Mockito](http://site.mockito.org/)
 * [Espresso](https://developer.android.com/training/testing/espresso/index.html)
+* [AndroidPlot](https://github.com/halfhp/androidplot)
 
 ## References
 
