@@ -128,11 +128,11 @@ class ForecastFragment : BaseFragment() {
     }
 
     private fun showLoading(){
-
+        fragment_forecast_loading.visibility = View.VISIBLE
     }
 
     private fun hideLoading(){
-
+        fragment_forecast_loading.visibility = View.GONE
     }
 
     private fun showError(errorGetForecastState: ErrorGetForecastState) {
