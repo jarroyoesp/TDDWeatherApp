@@ -4,11 +4,14 @@ package es.jarroyo.tddweatherapp.ui.forecast.fragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.androidplot.xy.*
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.forecast.fragment.ForecastFragmentModule
@@ -23,7 +26,13 @@ import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.GetForecastateState
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.LoadingGetForecastState
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.SuccessGetForecastState
 import kotlinx.android.synthetic.main.fragment_forecast.*
+import java.text.FieldPosition
+import java.text.Format
+import java.text.ParsePosition
 import javax.inject.Inject
+
+
+
 
 class ForecastFragment : BaseFragment() {
     override var layoutId = R.layout.fragment_forecast
@@ -138,7 +147,49 @@ class ForecastFragment : BaseFragment() {
     private fun showForecast(forecast: Forecast) {
         mRvAdapter?.setForecast(forecast)
         mRvAdapter?.notifyDataSetChanged()
+
+        showTemperaturePlot(forecast)
     }
+
+    private fun showTemperaturePlot(forecast: Forecast) {
+        val labelsXList = mutableListOf<String>()
+        val datesList = mutableListOf<Int>()
+        val temperaturesList = mutableListOf<Long>()
+
+        for (prediction in forecast.list) {
+            datesList.add(prediction.dt)
+            temperaturesList.add(Math.round(prediction.main.temp))
+            labelsXList.add(DateUtils.formatDateTime(context, prediction.dt * 1000L, DateUtils.FORMAT_SHOW_TIME))
+        }
+        val seriesY = SimpleXYSeries(temperaturesList, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "")
+
+        val series1Format = LineAndPointFormatter(context, R.xml.line_point_formatter_with_labels)
+        series1Format.interpolationParams = CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal)
+
+        fragment_forecast_plot.addSeries(seriesY, series1Format)
+
+        fragment_forecast_plot.linesPerDomainLabel = 3
+        fragment_forecast_plot.graph.domainGridLinePaint.color = Color.WHITE
+        //fragment_forecast_plot.graph.domainSubGridLinePaint.color = Color.WHITE
+
+        fragment_forecast_plot.legend.isVisible = false
+        fragment_forecast_plot.setRangeStep(StepMode.INCREMENT_BY_VAL, 1.0)
+        fragment_forecast_plot.setRangeStep(StepMode.SUBDIVIDE, 5.0)
+
+        fragment_forecast_plot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
+            override fun format(obj: Any, toAppendTo: StringBuffer, pos: FieldPosition): StringBuffer {
+                val i = Math.round((obj as Number).toFloat())
+                return toAppendTo.append(labelsXList[i])
+            }
+
+            override fun parseObject(source: String, pos: ParsePosition): Any? {
+                return null
+            }
+        }
+        fragment_forecast_plot.invalidate()
+    }
+
+
 
     companion object {
         val ARG_EXTRA_CITY_NAME = "ARG_EXTRA_CITY_NAME"

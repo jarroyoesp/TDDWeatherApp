@@ -79,6 +79,8 @@ ext {
     GsonVersion = "2.8.4"
 
     work_version = "1.0.0-alpha04"
+
+    androidPlotVersion = "1.5.6"
 }
 
 dependencies {
@@ -141,6 +143,9 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
     //implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+    // ANDROID PLOT
+    compile "com.androidplot:androidplot-core:$androidPlotVersion"
 
 
 }
