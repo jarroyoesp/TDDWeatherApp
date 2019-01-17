@@ -4,11 +4,11 @@ data class Forecast(
     val city: City,
     val cnt: Int,
     val cod: String,
-    val list: List<X>,
+    val list: List<Prediction>,
     val message: Double
 )
 
-data class X(
+data class Prediction(
     val clouds: Clouds,
     val dt: Int,
     val dt_txt: String,
@@ -30,11 +30,11 @@ data class Weather(
 
 data class Main(
     val grnd_level: Double,
-    val humidity: Int,
+    val humidity: Double,
     val pressure: Double,
     val sea_level: Double,
     val temp: Double,
-    val temp_kf: Int,
+    val temp_kf: Double,
     val temp_max: Double,
     val temp_min: Double
 )

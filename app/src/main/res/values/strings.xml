@@ -16,6 +16,7 @@
     <string name="city">City</string>
     <string name="empty_location">Add your location to get the forecast</string>
     <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
     <string name="temp">Temp</string>
     <string name="tempMax">Temp Max</string>
     <string name="tempMin">Temp Min</string>

@@ -3,11 +3,13 @@ package es.jarroyo.tddweatherapp.ui.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
-import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
-import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
+import es.jarroyo.tddweatherapp.domain.model.forecast.Forecast
+import es.jarroyo.tddweatherapp.domain.usecase.forecast.getForecast.GetForecastRequest
+import es.jarroyo.tddweatherapp.domain.usecase.forecast.getForecast.GetForecastUseCase
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.ErrorGetForecastState
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.GetForecastateState
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.LoadingGetForecastState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.forecast.SuccessGetForecastState
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -16,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
 
 class ForecastViewModel
     @Inject
-    constructor(private val getCurrentWeatherByNameUseCase: GetCurrentWeatherByNameUseCase,
+    constructor(private val getForecastUseCase: GetForecastUseCase,
                 private val coroutineContext: CoroutineContext)
     : ViewModel() {
 
@@ -25,31 +27,30 @@ class ForecastViewModel
     var mGetForecastateStateLiveData = MutableLiveData<GetForecastateState>()
 
     init {
-        //currentWeatherStateLiveData.postValue(DefaultCurrentWeatherState(Response.Success(null)))
     }
 
     fun getForecast(cityName: String) = launchSilent(coroutineContext, job) {
         mGetForecastateStateLiveData.postValue(LoadingGetForecastState())
 
-        val request = GetCurrentWeatherByNameRequest(cityName)
-        val response = getCurrentWeatherByNameUseCase.execute(request)
-        proccessCurrentWeather(response)
+        val request = GetForecastRequest(cityName)
+        val response = getForecastUseCase.execute(request)
+        proccessForecast(response)
     }
 
-    private fun proccessCurrentWeather(response: Response<CurrentWeather>){
-        /*if (response is Response.Success) {
-            currentWeatherStateLiveData.postValue(
-                DefaultCurrentWeatherState(
+    private fun proccessForecast(response: Response<Forecast>){
+        if (response is Response.Success) {
+            mGetForecastateStateLiveData.postValue(
+                SuccessGetForecastState(
                     response
                 )
             )
-        } else if (response is Response.Success) {
-            currentWeatherStateLiveData.postValue(
-                ErrorCurrentWeatherState(
+        } else if (response is Response.Error) {
+            mGetForecastateStateLiveData.postValue(
+                ErrorGetForecastState(
                     response
                 )
             )
-        }*/
+        }
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->

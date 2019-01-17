@@ -5,6 +5,7 @@ import com.microhealth.lmc.utils.NetworkSystemAbstract
 import es.jarroyo.tddweatherapp.BuildConfig
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
+import es.jarroyo.tddweatherapp.domain.model.forecast.Forecast
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,6 +14,7 @@ import java.io.IOException
 
 
 class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INetworkDataSource(networkSystem) {
+
 
     private fun initRetrofitOpenWateherAPI(): OpenWeatherAPI {
         val retrofit = Retrofit.Builder().apply {
@@ -37,6 +39,22 @@ class NetworkDataSource(private val networkSystem: NetworkSystemAbstract) : INet
                     .await()
 
             return Response.Success(currentWeather)
+        } catch (e: Exception) {
+            return Response.Error(e)
+        }
+    }
+
+    /**
+     * FORECAST
+     */
+    override suspend fun getForecast(cityName: String): Response<Forecast> {
+        val openWeatherAPI = initRetrofitOpenWateherAPI()
+        try {
+            val forecast =
+                openWeatherAPI.forecastByName(cityName)
+                    .await()
+
+            return Response.Success(forecast)
         } catch (e: Exception) {
             return Response.Error(e)
         }

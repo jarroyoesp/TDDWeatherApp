@@ -45,6 +45,11 @@ abstract class BaseBackActivity : BaseActivity() {
         }
     }
 
+    fun setTitleToolbar(title: String) {
+        supportActionBar?.title = title
+
+    }
+
     /**
      * ADD FRAGMENT TO MAIN LAYOUT
      */

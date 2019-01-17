@@ -9,6 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/activity_base_back_toolbar"
         android:layout_width="match_parent"
+        app:titleTextColor="@color/colorPrimary"
         android:layout_height="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
 
    <FrameLayout

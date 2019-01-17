@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationEntitytoWeatherLocationMapper
 import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationToWeatherLocationEntityMapper
+import es.jarroyo.tddweatherapp.data.repository.ForecastRepository
 import es.jarroyo.tddweatherapp.data.repository.LocationRepository
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
@@ -16,7 +17,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideForecastRepository(
+    fun provideWeatherRepository(
         networkDataSource: INetworkDataSource,
         diskDataSource: DiskDataSource
     ) = WeatherRepository(networkDataSource, diskDataSource)
@@ -29,4 +30,11 @@ class RepositoryModule {
         weatherLocationToWeatherLocationEntityMapper: WeatherLocationToWeatherLocationEntityMapper,
         weatherLocationEntitytoWeatherLocationMapper: WeatherLocationEntitytoWeatherLocationMapper
     ) = LocationRepository(app, diskDataSource, weatherLocationToWeatherLocationEntityMapper, weatherLocationEntitytoWeatherLocationMapper)
+
+    @Provides
+    @Singleton
+    fun provideForecastRepository(
+        networkDataSource: INetworkDataSource,
+        diskDataSource: DiskDataSource
+    ) = ForecastRepository(networkDataSource, diskDataSource)
 }

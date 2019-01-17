@@ -2,10 +2,12 @@ package es.jarroyo.tddweatherapp.app.di.module
 
 import dagger.Module
 import dagger.Provides
+import es.jarroyo.tddweatherapp.data.repository.ForecastRepository
 import es.jarroyo.tddweatherapp.data.repository.LocationRepository
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.forecast.getForecast.GetForecastUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.deleteWeatherLocation.DeleteWeatherLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
@@ -46,4 +48,11 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideDeleteWeatherLocationUseCase(repository: LocationRepository) = DeleteWeatherLocationUseCase(repository)
+
+    /**
+     * FORECAST
+     */
+    @Provides
+    @Singleton
+    fun provideGetForecastUseCase(repository: ForecastRepository) = GetForecastUseCase(repository)
 }
