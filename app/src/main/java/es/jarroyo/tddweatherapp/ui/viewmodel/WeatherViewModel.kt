@@ -11,10 +11,10 @@ import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherB
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.CurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.DefaultCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.ErrorCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.LoadingCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.ErrorCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.LoadingCurrentWeatherState
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -39,7 +39,11 @@ class WeatherViewModel
     }
 
     fun getCityCurrentWeather(cityName: String) = launchSilent(coroutineContext, job) {
-        currentWeatherStateLiveData.postValue(LoadingCurrentWeatherState(Response.Success(CurrentWeatherFactory.createCurrentWeatherTest())))
+        currentWeatherStateLiveData.postValue(
+            LoadingCurrentWeatherState(
+                Response.Success(CurrentWeatherFactory.createCurrentWeatherTest())
+            )
+        )
 
         val request = GetCurrentWeatherByNameRequest(cityName)
         val response = getCurrentWeatherByNameUseCase.execute(request)
@@ -48,9 +52,17 @@ class WeatherViewModel
 
     private fun proccessCurrentWeather(response: Response<CurrentWeather>){
         if (response is Response.Success) {
-            currentWeatherStateLiveData.postValue(DefaultCurrentWeatherState(response))
+            currentWeatherStateLiveData.postValue(
+                DefaultCurrentWeatherState(
+                    response
+                )
+            )
         } else if (response is Response.Success) {
-            currentWeatherStateLiveData.postValue(ErrorCurrentWeatherState(response))
+            currentWeatherStateLiveData.postValue(
+                ErrorCurrentWeatherState(
+                    response
+                )
+            )
         }
     }
 
@@ -71,7 +83,11 @@ class WeatherViewModel
             for (responseWeather in response.data) {
                 if (responseWeather is Response.Success) {
 
-                    weatherList.add(DefaultCurrentWeatherState(responseWeather))
+                    weatherList.add(
+                        DefaultCurrentWeatherState(
+                            responseWeather
+                        )
+                    )
                 }
             }
             weatherListStateLiveData.postValue(weatherList)

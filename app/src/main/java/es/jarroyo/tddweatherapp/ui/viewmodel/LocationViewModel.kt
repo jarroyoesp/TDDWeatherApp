@@ -10,7 +10,7 @@ import es.jarroyo.tddweatherapp.domain.usecase.location.deleteWeatherLocation.De
 import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationRequest
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.*
 import es.jarroyo.tddweatherapp.utils.launchSilent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -45,9 +45,17 @@ class LocationViewModel
 
     fun processCurrentLocationResponse(response: Response<WeatherLocation>){
         if (response is Response.Success) {
-            currentLocationStateLiveData.postValue(DefaultCurrentLocationState(response))
+            currentLocationStateLiveData.postValue(
+                DefaultCurrentLocationState(
+                    response
+                )
+            )
         } else if (response is Response.Error) {
-            currentLocationStateLiveData.postValue(ErrorCurrentLocationState(response))
+            currentLocationStateLiveData.postValue(
+                ErrorCurrentLocationState(
+                    response
+                )
+            )
         }
     }
 
@@ -62,9 +70,17 @@ class LocationViewModel
 
     fun processSaveWeatherLocationResponse(response: Response<List<WeatherLocation>>){
         if (response is Response.Success) {
-            saveWeatherLocationdStateLiveData.postValue(SuccessSaveWeatherLocationState(response))
+            saveWeatherLocationdStateLiveData.postValue(
+                SuccessSaveWeatherLocationState(
+                    response
+                )
+            )
         } else if (response is Response.Error) {
-            saveWeatherLocationdStateLiveData.postValue(ErrorSaveWeatherLocationState(response))
+            saveWeatherLocationdStateLiveData.postValue(
+                ErrorSaveWeatherLocationState(
+                    response
+                )
+            )
         }
     }
 
@@ -78,9 +94,17 @@ class LocationViewModel
 
     fun processGetWeatherLocationListResponse(response: Response<List<WeatherLocation>>){
         if (response is Response.Success) {
-            locationListLiveData.postValue(SuccessLocationListState(response))
+            locationListLiveData.postValue(
+                SuccessLocationListState(
+                    response
+                )
+            )
         } else if (response is Response.Error) {
-            locationListLiveData.postValue(ErrorLocationListState(response))
+            locationListLiveData.postValue(
+                ErrorLocationListState(
+                    response
+                )
+            )
         }
     }
 

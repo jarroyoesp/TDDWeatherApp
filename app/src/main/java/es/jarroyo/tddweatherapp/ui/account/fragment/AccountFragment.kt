@@ -22,7 +22,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 import es.jarroyo.tddweatherapp.ui.account.adapter.AccountListRVAdapter
 import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import javax.inject.Inject
 

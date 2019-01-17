@@ -11,7 +11,7 @@ import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -91,7 +91,11 @@ class WeatherLocationViewModelTest {
 
             viewModel.getCurrentLocation()
 
-            Mockito.verify(observer).onChanged(DefaultCurrentLocationState(response))
+            Mockito.verify(observer).onChanged(
+                DefaultCurrentLocationState(
+                    response
+                )
+            )
         }
     }
 
@@ -108,7 +112,11 @@ class WeatherLocationViewModelTest {
 
             viewModel.getCurrentLocation()
 
-            Mockito.verify(observer).onChanged(ErrorCurrentLocationState(response))
+            Mockito.verify(observer).onChanged(
+                ErrorCurrentLocationState(
+                    response
+                )
+            )
         }
     }
 
@@ -133,7 +141,11 @@ class WeatherLocationViewModelTest {
 
             viewModel.saveWeatherLocation(WeatherLocationFactory.createCurrentLocationTest())
 
-            Mockito.verify(observerSaveWeatherLocation).onChanged(SuccessSaveWeatherLocationState(response))
+            Mockito.verify(observerSaveWeatherLocation).onChanged(
+                SuccessSaveWeatherLocationState(
+                    response
+                )
+            )
         }
     }
 
@@ -147,7 +159,11 @@ class WeatherLocationViewModelTest {
 
             viewModel.saveWeatherLocation(WeatherLocationFactory.createCurrentLocationTest())
 
-            Mockito.verify(observerSaveWeatherLocation).onChanged(ErrorSaveWeatherLocationState(response))
+            Mockito.verify(observerSaveWeatherLocation).onChanged(
+                ErrorSaveWeatherLocationState(
+                    response
+                )
+            )
         }
     }
 

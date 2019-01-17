@@ -13,10 +13,10 @@ import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherB
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.CurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.DefaultCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.ErrorCurrentWeatherState
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.LoadingCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.ErrorCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.LoadingCurrentWeatherState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.instanceOf
@@ -126,7 +126,11 @@ class WeatherViewModelTest {
 
             viewModel.getCityCurrentWeather(CITY_NAME)
 
-            verify(observer).onChanged(DefaultCurrentWeatherState(response))
+            verify(observer).onChanged(
+                DefaultCurrentWeatherState(
+                    response
+                )
+            )
         }
 
     }
@@ -145,7 +149,11 @@ class WeatherViewModelTest {
 
             viewModel.getCityCurrentWeather(CITY_NAME)
 
-            verify(observer).onChanged(ErrorCurrentWeatherState(response))
+            verify(observer).onChanged(
+                ErrorCurrentWeatherState(
+                    response
+                )
+            )
         }
     }
 

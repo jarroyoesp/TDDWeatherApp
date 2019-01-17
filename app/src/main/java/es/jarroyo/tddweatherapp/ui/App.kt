@@ -1,12 +1,11 @@
 package es.jarroyo.tddweatherapp.ui
 
-import android.app.Application
-
+import android.support.multidex.MultiDexApplication
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.component.DaggerApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.module.ApplicationModule
 
-open class App : Application() {
+open class App : MultiDexApplication() {
     companion object {
         lateinit var graph: ApplicationComponent
     }

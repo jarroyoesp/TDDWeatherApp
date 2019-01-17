@@ -4,6 +4,8 @@ import dagger.Component
 import es.jarroyo.tddweatherapp.app.di.module.*
 import es.jarroyo.tddweatherapp.app.di.subcomponent.account.fragment.AccountFragmentComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.account.fragment.AccountFragmentModule
+import es.jarroyo.tddweatherapp.app.di.subcomponent.forecast.activity.ForecastActivityComponent
+import es.jarroyo.tddweatherapp.app.di.subcomponent.forecast.activity.ForecastActivityModule
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.activity.HomeActivityComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.activity.HomeActivityModule
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentComponent
@@ -30,6 +32,9 @@ interface ApplicationComponent {
      */
     fun plus(module: HomeActivityModule): HomeActivityComponent
     fun plus(module: HomeFragmentModule): HomeFragmentComponent
+
+    // Forecast
+    fun plus(module: ForecastActivityModule): ForecastActivityComponent
 
     /**
      * ACCOUNT

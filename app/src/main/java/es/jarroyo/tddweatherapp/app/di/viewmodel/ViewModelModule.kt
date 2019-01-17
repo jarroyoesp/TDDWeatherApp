@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
+import es.jarroyo.tddweatherapp.ui.viewmodel.ForecastViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.WeatherViewModel
 import kotlin.reflect.KClass
@@ -25,5 +26,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LocationViewModel::class)
     abstract fun bindCurrentLocationViewModel(viewModel: LocationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ForecastViewModel::class)
+    abstract fun bindCurrentForecastViewModel(viewModel: ForecastViewModel): ViewModel
 
 }

@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.ui.viewmodel.model
+package es.jarroyo.tddweatherapp.ui.viewmodel.model.weather
 
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import es.jarroyo.tddweatherapp.ui.account.fragment.AccountFragment
 import es.jarroyo.tddweatherapp.ui.base.BaseActivity
+import es.jarroyo.tddweatherapp.ui.forecast.ForecastActivity
 
 class Navigator {
 
@@ -39,6 +40,11 @@ class Navigator {
     /***********************************************************************************************
      *  ACTIVITIES
      **********************************************************************************************/
+    fun toForecastActivity(cityName: String) {
+        var bundle = Bundle()
+        bundle.putString(ForecastActivity.ARG_EXTRA_CITY_NAME, cityName)
+        toDefaultActivity(ForecastActivity::class.java, bundle)
+    }
 
     /***********************************************************************************************
      *  FRAGMENTS

@@ -14,6 +14,7 @@ import butterknife.OnClick
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
+import es.jarroyo.tddweatherapp.app.navigator.Navigator
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
@@ -21,7 +22,13 @@ import es.jarroyo.tddweatherapp.ui.base.BaseFragment
 import es.jarroyo.tddweatherapp.ui.home.fragment.adapter.HomeListRVAdapter
 import es.jarroyo.tddweatherapp.ui.viewmodel.LocationViewModel
 import es.jarroyo.tddweatherapp.ui.viewmodel.WeatherViewModel
-import es.jarroyo.tddweatherapp.ui.viewmodel.model.*
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.ErrorLocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.LoadingLocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.LocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.SuccessLocationListState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.CurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.DefaultCurrentWeatherState
+import es.jarroyo.tddweatherapp.ui.viewmodel.model.weather.ErrorCurrentWeatherState
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -42,6 +49,9 @@ class HomeFragment : BaseFragment() {
     // RV Adapter
     private var mLayoutManager: LinearLayoutManager? = null
     private var mRvAdapter: HomeListRVAdapter? = null
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun setupInjection(applicationComponent: ApplicationComponent) {
         applicationComponent.plus(HomeFragmentModule(this)).injectTo(this)
@@ -103,7 +113,7 @@ class HomeFragment : BaseFragment() {
 
             },
             listenerWeatherClicked = {
-
+                navigator.toForecastActivity(it.weather.name)
             }
         )
 
