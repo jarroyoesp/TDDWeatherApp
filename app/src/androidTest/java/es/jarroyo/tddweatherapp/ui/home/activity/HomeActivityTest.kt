@@ -1,9 +1,9 @@
 package es.jarroyo.tddweatherapp.ui.home.activity
 
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
-import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.runner.AndroidJUnit4
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.baseTest.BaseActivityRule
@@ -39,18 +39,20 @@ class HomeActivityTest {
     }
 
     @Test
-    fun show_current_wetaher_when_click_on_search() {
+    fun GIVEN_a_location_saved_WHEN_click_in_weather_THEN_show_forecast() {
         // Insert in DB a wetaherLocation
         val weaherLocationEntity = WeatherLocationFactory.createCurrentLocationTest().toEntity()
         DiskDataSource(mActivityRule.getContext()).insertWeatherLocation(weaherLocationEntity)
 
         mActivityRule.launchActivity()
 
-        // Click search
-        //onView(withId(R.id.fragment_home_button_search)).perform(click())
-//
-        //// Check data current weather is showed
-        //onView(withId(R.id.fragment_home_tv_current_weather)).check(matches(withText(containsString(CurrentWeatherFactory.currentTemp))))
+        // Check RV shows location test (Zaragoza) and Perform click
+        onView(withRecyclerView(R.id.fragment_home_rv).atPosition(0))
+            .check(matches(hasDescendant(withText(WeatherLocationFactory.locationTest)))).perform(click())
+
+        // Check forecast detail is shown
+        onView(withId(R.id.fragment_forecast_rv)).check(matches(isDisplayed()))
+
     }
 
     fun withRecyclerView(recyclerViewId: Int): RecyclerViewMatcher {
