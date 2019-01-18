@@ -145,7 +145,7 @@ dependencies {
     //implementation "com.github.bumptech.glide:glide:$glideVersion"
 
     // ANDROID PLOT
-    compile "com.androidplot:androidplot-core:$androidPlotVersion"
+    implementation "com.androidplot:androidplot-core:$androidPlotVersion"
 
 
 }
