@@ -57,7 +57,7 @@ class WeatherViewModel
                     response
                 )
             )
-        } else if (response is Response.Success) {
+        } else if (response is Response.Error) {
             currentWeatherStateLiveData.postValue(
                 ErrorCurrentWeatherState(
                     response

@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.usecase.location.currentLocation.GetCurrentLocationUseCase
+import es.jarroyo.tddweatherapp.domain.usecase.location.deleteWeatherLocation.DeleteWeatherLocationUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.getAllWeatherLocationList.GetAllWeatherLocationListUseCase
 import es.jarroyo.tddweatherapp.domain.usecase.location.saveWeatherLocation.SaveWeatherLocationUseCase
 import es.jarroyo.tddweatherapp.ui.viewmodel.model.location.*
@@ -42,6 +43,9 @@ class WeatherLocationViewModelTest {
 
     @Mock
     lateinit var getAllWeatherLocationListUseCase: GetAllWeatherLocationListUseCase
+
+    @Mock
+    lateinit var deleteWeatherLocationUseCase: DeleteWeatherLocationUseCase
 
     @Mock
     lateinit var observer: Observer<CurrentLocationState>
@@ -170,7 +174,7 @@ class WeatherLocationViewModelTest {
 
 
     private fun prepareViewModel(){
-        viewModel = LocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase, getAllWeatherLocationListUseCase, coroutineContext)
+        viewModel = LocationViewModel(getCurrentLocationUseCase,saveWeatherLocationUseCase, getAllWeatherLocationListUseCase, deleteWeatherLocationUseCase, coroutineContext)
     }
 
 
