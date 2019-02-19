@@ -49,4 +49,10 @@ abstract class BaseActivity : AppCompatActivity() {
             fm.popBackStack()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        navigator.currentActivity = null
+    }
 }

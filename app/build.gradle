@@ -75,6 +75,7 @@ ext {
     picassoVersion = "2.71828"
     roomVersion = "1.1.0"
     gsonVersion = "2.8.5"
+    leakCanaryVersion = "1.6.3"
 
     GsonVersion = "2.8.4"
 
@@ -150,6 +151,11 @@ dependencies {
 
     // ANDROID PLOT
     implementation "com.androidplot:androidplot-core:$androidPlotVersion"
+
+    // LEAK CANARY
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 
 
 }
