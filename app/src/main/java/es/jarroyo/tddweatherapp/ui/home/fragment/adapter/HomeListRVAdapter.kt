@@ -83,20 +83,20 @@ class HomeListRVAdapter(
             item_rv_weather_tv_city.text = weather.name
 
             // TEMP MAX/ MIN
-            var tempMaxRounded = Math.round(weather.main.temp_max)
-            var tempMinRounded = Math.round(weather.main.temp_min)
+            var tempMaxRounded = Math.round(weather.main?.temp_max!!)
+            var tempMinRounded = Math.round(weather.main?.temp_min!!)
             item_rv_weather_tv_temp_max.text = "${context.getString(R.string.tempMax)}: ${tempMaxRounded.toString()} ºC"
             item_rv_weather_tv_temp_min.text = "${context.getString(R.string.tempMin)}: ${tempMinRounded.toString()} ºC"
 
             // Wind
-            item_rv_weather_tv_wind.text = "${context.getString(R.string.wind)}: ${weather.wind.speed} km/h"
+            item_rv_weather_tv_wind.text = "${context.getString(R.string.wind)}: ${weather.wind?.speed} km/h"
 
             // TEMP BIG
             var tempRounded = Math.round(weather.main.temp)
             item_rv_weather_tv_temp_big.text = "${tempRounded.toString()} ºC"
 
             // Sunrise
-            val timeSunrise = DateUtils.formatDateTime(context, weather.sys.sunrise * 1000L, DateUtils.FORMAT_SHOW_TIME)
+            val timeSunrise = DateUtils.formatDateTime(context, weather.sys?.sunrise!! * 1000L, DateUtils.FORMAT_SHOW_TIME)
             item_rv_weather_tv_sunrise.text = "${context.getString(R.string.sunrise)}: ${timeSunrise}"
 
             // Sunset
@@ -104,9 +104,9 @@ class HomeListRVAdapter(
             item_rv_weather_tv_sunset.text = "${context.getString(R.string.sunset)}: ${timeSunset}"
 
             // ICON
-            item_rv_weather_iv_avatar.loadUrl("${BuildConfig.OPEN_WEATHER_URL_ICON_BASE}${weather.weather.first().icon}.png")
+            item_rv_weather_iv_avatar.loadUrl("${BuildConfig.OPEN_WEATHER_URL_ICON_BASE}${weather.weather?.first()?.icon}.png")
             setOnClickListener {
-                listener(ItemWeather(position, weather))
+                listener(ItemWeather(position, weather, this))
             }
         }
     }
@@ -126,4 +126,4 @@ class HomeListRVAdapter(
     }
 }
 
-data class ItemWeather(val position: Int, val weather: CurrentWeather)
+data class ItemWeather(val position: Int, val weather: CurrentWeather, val itemView: View)

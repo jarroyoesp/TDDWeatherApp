@@ -19,6 +19,13 @@ class WeatherRepository(
      **********************************************************************************************/
     suspend fun getCurrentWeather(request: GetCurrentWeatherByNameRequest): Response<CurrentWeather> {
         val result = networkDataSource.getCurrentWeatherByName(request.cityName)
+
+        // Save in database
+        if (result is Response.Success) {
+            val currentWeather = (result as Response.Success).data
+            diskDataSource.insertCurrentWeather(currentWeather.toEntity())
+        }
+
         return result
     }
 
@@ -34,7 +41,16 @@ class WeatherRepository(
         for (location in request.locationList) {
             val result = networkDataSource.getCurrentWeatherByName(location.cityName)
             weatherList.add(result)
+
+            // Save in database
+            if (result is Response.Success) {
+                val currentWeather = (result as Response.Success).data
+                diskDataSource.insertCurrentWeather(currentWeather.toEntity())
+            }
+
         }
+
+        val fromDisk = diskDataSource.getAllCurrentWeatherList()
 
         return Response.Success(weatherList)
     }
