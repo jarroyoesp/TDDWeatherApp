@@ -9,7 +9,8 @@ class WeatherLocationEntitytoWeatherLocationMapper : Mapper<WeatherLocationEntit
     override fun map(input: WeatherLocationEntity): WeatherLocation =
         WeatherLocation(
             getId(input),
-            getCityName(input)
+            getCityName(input),
+            getUserId(input)
         )
 
     private fun getId(input: WeatherLocationEntity): Long {
@@ -18,6 +19,10 @@ class WeatherLocationEntitytoWeatherLocationMapper : Mapper<WeatherLocationEntit
 
     private fun getCityName(input: WeatherLocationEntity): String {
         return input.cityName
+    }
+
+    private fun getUserId(input: WeatherLocationEntity): Long {
+        return input.userId
     }
 
 

@@ -16,7 +16,8 @@ class LocationRepository(
     private val app: App,
     private val diskDataSource: DiskDataSource,
     private val weatherLocationToWeatherLocationEntityMapper: WeatherLocationToWeatherLocationEntityMapper,
-    private val weatherLocationEntitytoWeatherLocationMapper: WeatherLocationEntitytoWeatherLocationMapper
+    private val weatherLocationEntitytoWeatherLocationMapper: WeatherLocationEntitytoWeatherLocationMapper,
+    private val userRepository: UserRepository
 ) {
 
     val TAG = LocationRepository::class.java.simpleName
@@ -33,6 +34,9 @@ class LocationRepository(
      * SAVE WEATHER LOCATION
      **********************************************************************************************/
     fun saveWeatherLocationList(request: SaveWeatherLocationRequest): Response<List<WeatherLocation>> {
+        val userEntity = userRepository.getCurrentUserLocal()
+        request.weatherLocation.userId = userEntity?.id!!
+
         diskDataSource.insertWeatherLocation(weatherLocationToWeatherLocationEntityMapper.map(request.weatherLocation))
 
         val locationListEntity = diskDataSource.getAllWeatherLocationList()

@@ -9,7 +9,8 @@ class WeatherLocationToWeatherLocationEntityMapper : Mapper<WeatherLocation, Wea
     override fun map(input: WeatherLocation): WeatherLocationEntity =
         WeatherLocationEntity(
             getId(input),
-            getCityName(input)
+            getCityName(input),
+            getUserId(input)
         )
 
     private fun getId(input: WeatherLocation): Long {
@@ -20,6 +21,9 @@ class WeatherLocationToWeatherLocationEntityMapper : Mapper<WeatherLocation, Wea
         return input.cityName
     }
 
+    private fun getUserId(input: WeatherLocation): Long {
+        return input.userId
+    }
 
     fun mapList(alarmsEntityList: List<WeatherLocation>?): MutableList<WeatherLocationEntity> {
         var alarmsList = mutableListOf<WeatherLocationEntity>()

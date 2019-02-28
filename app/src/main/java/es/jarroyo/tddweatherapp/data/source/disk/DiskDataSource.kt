@@ -3,6 +3,7 @@ package es.jarroyo.tddweatherapp.data.source.disk
 import android.app.Application
 import android.content.Context
 import es.jarroyo.tddweatherapp.data.entity.CurrentWeatherEntity
+import es.jarroyo.tddweatherapp.data.entity.UserEntity
 import es.jarroyo.tddweatherapp.data.entity.WeatherLocationEntity
 
 class DiskDataSource(appContext: Context) {
@@ -37,6 +38,13 @@ class DiskDataSource(appContext: Context) {
 
     fun getAllCurrentWeatherList() = database?.currentWeatherDao()?.getAllCurrentWeatherList()
 
+
+    /***********************************************************************************************
+     * USER
+     **********************************************************************************************/
+    fun getUser() = database?.userDao()?.getFirst()
+
+    fun insertUser(userEntity: UserEntity) = database?.userDao()?.insert(userEntity)
 
     /***********************************************************************************************
      * COMMON

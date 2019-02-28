@@ -6,6 +6,7 @@ import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationEntitytoWeat
 import es.jarroyo.tddweatherapp.data.mapper.location.WeatherLocationToWeatherLocationEntityMapper
 import es.jarroyo.tddweatherapp.data.repository.ForecastRepository
 import es.jarroyo.tddweatherapp.data.repository.LocationRepository
+import es.jarroyo.tddweatherapp.data.repository.UserRepository
 import es.jarroyo.tddweatherapp.data.repository.WeatherRepository
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 import es.jarroyo.tddweatherapp.data.source.network.INetworkDataSource
@@ -28,8 +29,9 @@ class RepositoryModule {
         app: App,
         diskDataSource: DiskDataSource,
         weatherLocationToWeatherLocationEntityMapper: WeatherLocationToWeatherLocationEntityMapper,
-        weatherLocationEntitytoWeatherLocationMapper: WeatherLocationEntitytoWeatherLocationMapper
-    ) = LocationRepository(app, diskDataSource, weatherLocationToWeatherLocationEntityMapper, weatherLocationEntitytoWeatherLocationMapper)
+        weatherLocationEntitytoWeatherLocationMapper: WeatherLocationEntitytoWeatherLocationMapper,
+        userRepository: UserRepository
+    ) = LocationRepository(app, diskDataSource, weatherLocationToWeatherLocationEntityMapper, weatherLocationEntitytoWeatherLocationMapper, userRepository)
 
     @Provides
     @Singleton
@@ -37,4 +39,11 @@ class RepositoryModule {
         networkDataSource: INetworkDataSource,
         diskDataSource: DiskDataSource
     ) = ForecastRepository(networkDataSource, diskDataSource)
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        networkDataSource: INetworkDataSource,
+        diskDataSource: DiskDataSource
+    ) = UserRepository(networkDataSource, diskDataSource)
 }
