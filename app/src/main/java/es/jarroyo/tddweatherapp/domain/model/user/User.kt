@@ -1,4 +1,4 @@
-package es.jarroyo.tddweatherapp.domain.model
+package es.jarroyo.tddweatherapp.domain.model.user
 
 import es.jarroyo.tddweatherapp.data.entity.UserEntity
 
