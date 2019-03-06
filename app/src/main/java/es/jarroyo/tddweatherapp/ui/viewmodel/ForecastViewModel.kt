@@ -1,7 +1,7 @@
 package es.jarroyo.tddweatherapp.ui.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.forecast.Forecast
 import es.jarroyo.tddweatherapp.domain.usecase.forecast.getForecast.GetForecastRequest

@@ -1,6 +1,6 @@
 package es.jarroyo.tddweatherapp.ui.forecast.fragment.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import es.jarroyo.tddweatherapp.R

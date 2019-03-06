@@ -1,9 +1,9 @@
 package es.jarroyo.tddweatherapp.data.entity
 
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverters
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import es.jarroyo.tddweatherapp.data.entity.typeConverter.WeatherEntityConverter
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.*
 

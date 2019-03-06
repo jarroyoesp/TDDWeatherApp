@@ -1,7 +1,7 @@
 package es.jarroyo.tddweatherapp.ui.base
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import butterknife.ButterKnife
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent

@@ -1,9 +1,9 @@
 package es.jarroyo.tddweatherapp.data.source.disk.dao
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.database.sqlite.SQLiteConstraintException
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.InstrumentationRegistry
+import androidx.test.runner.AndroidJUnit4
 import es.jarroyo.tddweatherapp.data.source.disk.Database
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocationFactory
 import es.jarroyo.tddweatherapp.domain.model.location.toEntity

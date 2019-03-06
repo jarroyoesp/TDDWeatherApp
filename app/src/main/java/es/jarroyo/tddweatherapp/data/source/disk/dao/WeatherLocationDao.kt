@@ -1,6 +1,6 @@
 package es.jarroyo.tddweatherapp.data.source.disk.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import es.jarroyo.tddweatherapp.data.entity.WeatherLocationEntity
 
 @Dao

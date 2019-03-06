@@ -2,7 +2,7 @@ package es.jarroyo.tddweatherapp.ui.home.activity
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.activity.HomeActivityModule

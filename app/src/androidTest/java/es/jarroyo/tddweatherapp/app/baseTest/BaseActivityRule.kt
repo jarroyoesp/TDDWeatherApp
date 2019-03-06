@@ -3,8 +3,8 @@ package es.jarroyo.tddweatherapp.app.baseTest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.test.InstrumentationRegistry
-import android.support.test.rule.ActivityTestRule
+import androidx.test.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import es.jarroyo.tddweatherapp.data.source.disk.DiskDataSource
 
 class BaseActivityRule<A : Activity>(activityClass: Class<A>, initialTouchMode: Boolean, launchActivity: Boolean) : ActivityTestRule<A>(activityClass, initialTouchMode, launchActivity) {

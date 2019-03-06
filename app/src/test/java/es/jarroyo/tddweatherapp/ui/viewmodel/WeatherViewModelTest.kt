@@ -1,10 +1,10 @@
 package es.jarroyo.tddweatherapp.ui.viewmodel
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.whenever
 import es.jarroyo.tddweatherapp.data.exception.NetworkConnectionException
 import es.jarroyo.tddweatherapp.domain.model.Response

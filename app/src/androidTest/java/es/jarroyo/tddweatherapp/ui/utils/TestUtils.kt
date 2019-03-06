@@ -1,7 +1,7 @@
 package es.jarroyo.tddweatherapp.ui.utils
 
-import android.support.test.espresso.matcher.BoundedMatcher
-import android.support.v7.widget.RecyclerView
+import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher

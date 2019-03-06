@@ -1,10 +1,6 @@
 package es.jarroyo.tddweatherapp.ui.base
 
 import android.os.Build
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
@@ -12,6 +8,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import es.jarroyo.tddweatherapp.R
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -60,7 +60,7 @@ fun ImageView.loadRoundedUrl(url: String) {
 
 fun AppCompatActivity.snackBar(message: String, onClickListener: View.OnClickListener? = null) {
     //val snack = Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG)
-    val snack = Snackbar.make(findViewById(android.R.id.content), Html.fromHtml(message), Snackbar.LENGTH_LONG)
+    val snack = com.google.android.material.snackbar.Snackbar.make(findViewById(android.R.id.content), Html.fromHtml(message), com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
 
     // Custom Snackbar
     val layout = snack.getView() as Snackbar.SnackbarLayout
@@ -69,7 +69,7 @@ fun AppCompatActivity.snackBar(message: String, onClickListener: View.OnClickLis
     layout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
 
     // TextColor
-    val textView = layout.findViewById<View>(android.support.design.R.id.snackbar_text) as TextView
+    val textView = layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
     textView.setTextColor(ContextCompat.getColor(this, R.color.white))
 
     // Action

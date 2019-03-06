@@ -1,6 +1,6 @@
 package es.jarroyo.tddweatherapp.data.entity.typeConverter
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import es.jarroyo.tddweatherapp.data.entity.WeatherEntity

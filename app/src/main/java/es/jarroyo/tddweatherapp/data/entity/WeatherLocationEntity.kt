@@ -1,8 +1,8 @@
 package es.jarroyo.tddweatherapp.data.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import es.jarroyo.tddweatherapp.domain.model.location.WeatherLocation
 
 fun WeatherLocationEntity.toDomain(): WeatherLocation = WeatherLocation(id, cityName)

@@ -1,6 +1,6 @@
 package es.jarroyo.tddweatherapp.ui
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.squareup.leakcanary.LeakCanary
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.component.DaggerApplicationComponent
