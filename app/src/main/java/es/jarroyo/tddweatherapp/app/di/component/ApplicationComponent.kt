@@ -12,6 +12,8 @@ import es.jarroyo.tddweatherapp.app.di.subcomponent.home.activity.HomeActivityCo
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.activity.HomeActivityModule
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.fragment.HomeFragmentModule
+import es.jarroyo.tddweatherapp.app.di.subcomponent.worker.weather.WeatherWorkerComponent
+import es.jarroyo.tddweatherapp.app.di.subcomponent.worker.weather.WeatherWorkerModule
 import es.jarroyo.tddweatherapp.app.di.viewmodel.ViewModelFactoryModule
 import es.jarroyo.tddweatherapp.app.di.viewmodel.ViewModelModule
 import javax.inject.Singleton
@@ -44,4 +46,8 @@ interface ApplicationComponent {
      */
     fun plus(module: AccountFragmentModule): AccountFragmentComponent
 
+    /**
+     * WORKER
+     */
+    fun plus(module: WeatherWorkerModule): WeatherWorkerComponent
 }

@@ -25,6 +25,9 @@ android {
             buildConfigField STRING, "OPEN_WEATHER_API_KEY", '"f11780da3330643cd659bb6dbb4e44a3"'
             buildConfigField STRING, "OPEN_WEATHER_URL_ICON_BASE", '"http://openweathermap.org/img/w/"'
             buildConfigField STRING, "OPEN_WEATHER_API_URL_BASE", '"https://api.openweathermap.org"'
+
+            buildConfigField STRING, "NOTIFICATION_CHANNEL_ALARMS_ID", '"NOTIFICATION_CHANNEL_ALARMS_ID"'
+            buildConfigField STRING, "NOTIFICATION_CHANNEL_ALARMS_NAME", '"TDDWeather Alarms"'
         }
 
         debug {
@@ -83,9 +86,7 @@ ext {
     leakCanaryVersion = "1.6.3"
 
     GsonVersion = "2.8.4"
-
-    work_version = "1.0.0-alpha04"
-
+    work_manager_version = '1.0.0'
     androidPlotVersion = "1.5.6"
 }
 
@@ -163,7 +164,8 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 
-
+    // WORK MANAGER
+    implementation "android.arch.work:work-runtime-ktx:$work_manager_version"
 }
 
 kapt {

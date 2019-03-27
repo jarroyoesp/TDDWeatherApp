@@ -2,10 +2,14 @@ package es.jarroyo.tddweatherapp.ui.home.activity
 
 import android.net.Uri
 import android.os.Bundle
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import es.jarroyo.tddweatherapp.R
 import es.jarroyo.tddweatherapp.app.di.component.ApplicationComponent
 import es.jarroyo.tddweatherapp.app.di.subcomponent.home.activity.HomeActivityModule
+import es.jarroyo.tddweatherapp.app.worker.WeatherWorker
 import es.jarroyo.tddweatherapp.ui.base.BaseActivity
 import es.jarroyo.tddweatherapp.ui.home.fragment.HomeFragment
 import kotlinx.android.synthetic.main.activity_home.*
@@ -22,6 +26,8 @@ class HomeActivity : BaseActivity(), HomeFragment.OnFragmentInteractionListener 
         super.onCreate(savedInstanceState)
 
         activity_home_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        //initPeriodicWorker()
     }
 
     /**
@@ -68,4 +74,14 @@ class HomeActivity : BaseActivity(), HomeFragment.OnFragmentInteractionListener 
             super.onBackPressed()
         }
     }
+
+    private fun initPeriodicWorker() {
+        val mWorkManager = WorkManager.getInstance()
+        mWorkManager?.cancelAllWorkByTag(WeatherWorker.TAG)
+
+        val periodicBuilder = PeriodicWorkRequest.Builder(WeatherWorker::class.java, 15, java.util.concurrent.TimeUnit.MINUTES)
+        val myWork = periodicBuilder.addTag(WeatherWorker.TAG).build()
+        mWorkManager?.enqueueUniquePeriodicWork(WeatherWorker.TAG, ExistingPeriodicWorkPolicy.KEEP, myWork)
+
+   }
 }
