@@ -8,6 +8,6 @@ import es.jarroyo.tddweatherapp.domain.usecase.base.BaseUseCase
 open class GetWeatherListUseCase(val repository: WeatherRepository) : BaseUseCase<GetWeatherListRequest, List<Response<CurrentWeather>>>() {
 
     override suspend fun run(): Response<List<Response<CurrentWeather>>> {
-        return repository.getWeatherList(request!!)
+        return repository.getWeatherList(request!!, getChannel())
     }
 }

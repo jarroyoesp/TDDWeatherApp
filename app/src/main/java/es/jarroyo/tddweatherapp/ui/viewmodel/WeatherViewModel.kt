@@ -72,8 +72,8 @@ class WeatherViewModel
      */
     fun getWeatherList(locationList: List<WeatherLocation>) = launchSilent(coroutineContext, job) {
         val request = GetWeatherListRequest(locationList)
-        val response = getWeatherListUseCase.execute(request)
-        processWeatherListResponse(response)
+        getWeatherListUseCase.execute(request)
+        processWeatherListResponse(getWeatherListUseCase.getChannel().receive())
     }
 
     private fun processWeatherListResponse(response: Response<List<Response<CurrentWeather>>>) {

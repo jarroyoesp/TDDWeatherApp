@@ -6,6 +6,7 @@ import es.jarroyo.tddweatherapp.domain.model.Response
 import es.jarroyo.tddweatherapp.domain.model.currentWeather.CurrentWeather
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.GetCurrentWeatherByNameRequest
 import es.jarroyo.tddweatherapp.domain.usecase.currentWeather.getWeatherList.GetWeatherListRequest
+import kotlinx.coroutines.channels.Channel
 
 class WeatherRepository(
     private val networkDataSource: INetworkDataSource,
@@ -32,10 +33,21 @@ class WeatherRepository(
     /***********************************************************************************************
      * GET WEATHER LIST
      **********************************************************************************************/
-    suspend fun getWeatherList(request: GetWeatherListRequest): Response<List<Response<CurrentWeather>>> {
+    suspend fun getWeatherList(request: GetWeatherListRequest, channel: Channel<Response<List<Response<CurrentWeather>>>>): Response<List<Response<CurrentWeather>>> {
         /*val result = networkDataSource.getCurrentWeatherByName(byNameRequest)
         return result*/
 
+        // FROM DISK DATA SOURCE
+        val currentWeatherLocalList = diskDataSource.getAllCurrentWeatherList()
+        val list = mutableListOf<Response<CurrentWeather>>()
+        if (currentWeatherLocalList != null) {
+            for (currentWeatherEntity in currentWeatherLocalList) {
+                list.add(Response.Success(currentWeatherEntity.toModel()))
+            }
+            channel.send(Response.Success(list))
+        }
+
+        // FROM REMOTE
         var weatherList = mutableListOf<Response<CurrentWeather>>()
 
         for (location in request.locationList) {
@@ -50,7 +62,7 @@ class WeatherRepository(
 
         }
 
-        val fromDisk = diskDataSource.getAllCurrentWeatherList()
+        channel.send(Response.Success(weatherList))
 
         return Response.Success(weatherList)
     }

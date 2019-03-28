@@ -1,10 +1,12 @@
 package es.jarroyo.tddweatherapp.domain.usecase.base
 
 import es.jarroyo.tddweatherapp.domain.model.Response
+import kotlinx.coroutines.channels.Channel
 
 abstract class BaseUseCase<R : BaseRequest, T>() {
 
     var request: R? = null
+    private var channel= Channel<Response<T>>(Channel.UNLIMITED)
 
     suspend fun execute(request: R? = null): Response<T> {
         this.request = request
@@ -15,4 +17,6 @@ abstract class BaseUseCase<R : BaseRequest, T>() {
     }
 
     abstract suspend fun run(): Response<T>
+
+    fun getChannel() = channel
 }
